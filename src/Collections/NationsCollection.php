@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Collection;
 
+/**
+ * Last database update: January 8, 2015
+ */
 class NationsCollection extends Collection
 {
     /* ------------------------------------------------------------------------------------------------

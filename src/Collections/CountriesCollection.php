@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Collection;
 
+/**
+ * Last database update: January 8, 2015
+ */
 class CountriesCollection extends Collection
 {
     /* ------------------------------------------------------------------------------------------------
@@ -42,7 +45,7 @@ class CountriesCollection extends Collection
      *
      * @return array
      */
-    private function getData()
+    private static function getData()
     {
         // [code, iso_code_2, iso_code_3, iso_country, country, lat, lon],
         return [

@@ -5,7 +5,7 @@ return [
      |  Databas Settings
      | ------------------------------------------------------------------------------------------------
      */
-    'connection' => 'sqlite',
+    'connection' => 'mysql',
 
     'prefix'     => 'geo_',
 

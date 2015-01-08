@@ -3,6 +3,7 @@
 use Arcanedev\GeoIP\Collections\CountriesCollection;
 use Arcanedev\GeoIP\Collections\NationsCollection;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
@@ -41,12 +42,11 @@ class DumpSqlCommand extends BaseCommand
         $nationsSeeds   = NationsCollection::init();
         $countriesTable = 'geo_countries';
         $countriesSeeds = CountriesCollection::init();
-
         $data           = compact('nationsTable', 'nationsSeeds', 'countriesTable', 'countriesSeeds');
-        $view           = 'geo-ip::sql-file';
-        $file           = View::make($view, $data)->render();
 
-        $path           = app_path() . '/database/geo-db.sql';
+        $file           = View::make('geo-ip::sql-file', $data)->render();
+
+        $path           = $this->getDumpPath();
 
         if (File::exists($path)) {
             File::delete($path);
@@ -56,5 +56,31 @@ class DumpSqlCommand extends BaseCommand
 
         $this->info('The SQL file was successfully generated !');
         $this->comment('Path [' . $path . ']');
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get Config
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function getConfig($name)
+    {
+        return Config::get('geo-ip::config.' . $name);
+    }
+
+    /**
+     * Get Dump Path
+     *
+     * @return string
+     */
+    public function getDumpPath()
+    {
+        return $this->getConfig('dump');
     }
 }
