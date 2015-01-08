@@ -22,6 +22,9 @@
         "psr-4": {
             "Arcanedev\\GeoIP\\": "src/"
         },
+        "classmap": [
+            "src/migrations"
+        ],
         "files": ["src/helpers.php"]
     },
     "autoload-dev": {
