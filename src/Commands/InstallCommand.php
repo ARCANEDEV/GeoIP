@@ -61,8 +61,8 @@ class InstallCommand extends Command
     private function runMigrations()
     {
         $this->call('migrate', [
-            '--env'   => $this->option('env'),
-            '--bench' =>'arcanedev/geo-ip'
+            '--env'     => $this->option('env'),
+            '--package' =>'arcanedev/geo-ip'
         ]);
     }
 
