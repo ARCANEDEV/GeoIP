@@ -50,9 +50,51 @@ And the facade in the `aliases` array:
 )
 ```
 
+#### Artisan Commands
+There are 2 commands available through this package:
+```
+php artisan geo-ip:install
+```
+
+Which simply migrate and seed all IPs and countries data for this package. Or
+
+```
+php artisan geo-ip:dump
+```
+
+Which generate a SQL File for your database.
+
+### Configuration
+Publish the package configuration by using this command:
+
+```
+php artisan config:publish arcanedev/geo-ip
+```
+
+Update your settings in the generated `app/config/packages/arcanedev/geo-ip` configuration file.
+
+```php
+return [
+    'connection' => 'mysql',
+    'prefix'     => 'geo_',
+    'table'      => [
+        'nations'   => 'nations',
+        'countries' => 'countries',
+    ],
+    'dump'       => app_path() . '/database/geo-db.sql'
+];
+```
+
+## USAGE
+Coming soon ...
+
 ### TODOS:
 
   - [ ] Documentation
   - [ ] Examples
   - [ ] More tests and code coverage.
   - [ ] Refactoring.
+
+### CREDIT
+
+Thanks to [ip2nation.com](http://ip2nation.com/) for the database.
