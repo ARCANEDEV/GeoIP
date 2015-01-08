@@ -13,7 +13,7 @@ class Nation extends Base
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    protected $table      = 'geo_nations';
+    protected $tableKey   = 'nations';
 
     protected $primaryKey = 'ip';
 
