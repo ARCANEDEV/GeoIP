@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Request;
 use Arcanedev\GeoIP\Models\Country;
-use Arcanedev\GeoIP\Models\Nation;
 
 use Arcanedev\GeoIP\Exceptions\InvalidIPAddressException;
 

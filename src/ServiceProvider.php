@@ -74,6 +74,12 @@ class ServiceProvider extends IlluminateServiceProvider
             return new Commands\InstallCommand($app);
         });
 
+        $this->app['geo-ip:dump'] = $this->app->share(function($app)
+        {
+            return new Commands\DumpSqlCommand($app);
+        });
+
         $this->commands('geo-ip:install');
+        $this->commands('geo-ip:dump');
     }
 }

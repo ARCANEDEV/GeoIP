@@ -1,10 +1,6 @@
 <?php namespace Arcanedev\GeoIP\Commands;
 
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-
-class InstallCommand extends Command
+class InstallCommand extends BaseCommand
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -23,20 +19,6 @@ class InstallCommand extends Command
      * @var string
      */
     protected $description = 'GeoIP Install Command [Migration + Seeds].';
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Constrcutor
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
