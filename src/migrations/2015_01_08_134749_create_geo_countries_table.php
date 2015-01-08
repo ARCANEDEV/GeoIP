@@ -1,27 +1,15 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Arcanedev\GeoIP\migrations\BaseMigration;
 
-class CreateGeoCountriesTable extends Migration
+class CreateGeoCountriesTable extends BaseMigration
 {
 	/* ------------------------------------------------------------------------------------------------
 	 |  Properties
 	 | ------------------------------------------------------------------------------------------------
 	 */
-	protected $connection;
-
-	protected $table;
-
-	/* ------------------------------------------------------------------------------------------------
-	 |  Constructor
-	 | ------------------------------------------------------------------------------------------------
-	 */
-	public function __construct()
-	{
-		$this->connection = 'sqlite';
-		$this->table      = 'geo_countries';
-	}
+	protected $name = 'countries';
 
 	/* ------------------------------------------------------------------------------------------------
 	 |  Functions
@@ -34,7 +22,7 @@ class CreateGeoCountriesTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::connection($this->connection)->create($this->table, function(Blueprint $table)
+		$this->create(function(Blueprint $table)
 		{
 			$table->string('code', 4)->default('');
 			$table->string('iso_code_2', 2)->default('');
@@ -46,15 +34,5 @@ class CreateGeoCountriesTable extends Migration
 
 			$table->primary('code');
 		});
-	}
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::dropIfExists($this->table);
 	}
 }
