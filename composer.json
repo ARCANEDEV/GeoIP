@@ -1,7 +1,7 @@
 {
     "name": "arcanedev/geo-ip",
     "description": "GEO IP Helper",
-    "keywords": ["geo", "ip", "localization", "nation", "country"],
+    "keywords": ["geo", "ip", "localization", "nation", "country", "ip to long", "ip2long", "long2ip", "ip2nation", "laravel"],
     "license": "MIT",
     "authors": [
         {

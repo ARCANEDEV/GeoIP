@@ -1,7 +1,12 @@
 <?php namespace Arcanedev\GeoIP;
 
-use Arcanedev\GeoIP\Contracts\GeoIPInterface;
+use Illuminate\Support\Facades\Request;
+use Arcanedev\GeoIP\Models\Country;
+use Arcanedev\GeoIP\Models\Nation;
+
 use Arcanedev\GeoIP\Exceptions\InvalidIPAddressException;
+
+use Arcanedev\GeoIP\Contracts\GeoIPInterface;
 
 class GeoIP implements GeoIPInterface
 {
@@ -31,11 +36,7 @@ class GeoIP implements GeoIPInterface
      */
     public function getCurrentIp()
     {
-        if (! isset($_SERVER['REMOTE_ADDR'])) {
-            return null;
-        }
-
-        return $_SERVER['REMOTE_ADDR'];
+        return Request::ip();
     }
 
     /**
@@ -68,6 +69,23 @@ class GeoIP implements GeoIPInterface
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Get Country By Ip
+     *
+     * @param string $ip
+     *
+     * @return Country
+     */
+    public function country($ip = '')
+    {
+        if (empty($ip)) {
+            $ip = $this->getCurrentIp();
+        }
+
+        $this->setIp($ip);
+
+        return Country::getByIp($this->ip);
+    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Convert Functions
