@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Request;
 use Arcanedev\GeoIP\Models\Country;
 
+use Arcanedev\GeoIP\Exceptions\InvalidTypeException;
 use Arcanedev\GeoIP\Exceptions\InvalidIPAddressException;
 
 use Arcanedev\GeoIP\Contracts\GeoIPInterface;
@@ -22,6 +23,7 @@ class GeoIP implements GeoIPInterface
      */
     public function __construct()
     {
+        $this->ip = '';
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -45,6 +47,10 @@ class GeoIP implements GeoIPInterface
      */
     public function getIp()
     {
+        if (empty($this->ip)) {
+            $this->ip = $this->getCurrentIp();
+        }
+
         return $this->ip;
     }
 
@@ -55,7 +61,7 @@ class GeoIP implements GeoIPInterface
      *
      * @return $this
      */
-    protected function setIp($ip)
+    public function setIp($ip)
     {
         $this->checkIp($ip);
 
@@ -78,7 +84,7 @@ class GeoIP implements GeoIPInterface
     public function country($ip = '')
     {
         if (empty($ip)) {
-            $ip = $this->getCurrentIp();
+            $ip = $this->getIp();
         }
 
         $this->setIp($ip);
@@ -121,14 +127,25 @@ class GeoIP implements GeoIPInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
+     * Check IP Address
+     *
      * @param string $ip
      *
+     * @throws InvalidTypeException
      * @throws InvalidIPAddressException
      */
     private function checkIp(&$ip)
     {
+        if (! is_string($ip)) {
+            throw new InvalidTypeException(
+                'The IP Address must be a string value, '. gettype($ip) . ' is given'
+            );
+        }
+
         if (! filter_var($ip, FILTER_VALIDATE_IP)) {
-            throw new InvalidIPAddressException();
+            throw new InvalidIPAddressException(
+                'The IP Address is not valid [' . $ip .']'
+            );
         }
     }
 }
