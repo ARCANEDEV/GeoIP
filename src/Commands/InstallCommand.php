@@ -40,18 +40,42 @@ class InstallCommand extends BaseCommand
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Run Migrations
+     *
+     * @return void
+     */
     private function runMigrations()
     {
-        $this->call('migrate', [
-            '--env'     => $this->option('env'),
-            '--package' =>'arcanedev/geo-ip'
-        ]);
+        $options = [
+            '--package' => 'arcanedev/geo-ip',
+        ];
+
+        if (! is_null($this->option('env'))) {
+            $options['--env'] = $this->option('env');
+        }
+
+        if ($this->getLaravel()->environment('testing')){
+            $options['--database'] = 'testbench';
+            $options['--path']     = 'migrations';
+        }
+
+        $this->call('migrate', $options);
     }
 
+    /**
+     * Run Seeds
+     *
+     * @return void
+     */
     private function runSeeds()
     {
-        $this->call('db:seed', [
-            '--class'   => 'Arcanedev\\GeoIP\\Seeds\\DatabaseSeeder'
-        ]);
+        $options['--class'] = 'Arcanedev\\GeoIP\\Seeds\\DatabaseSeeder';
+
+        if ($this->getLaravel()->environment('testing')){
+            $options['--database'] = 'testbench';
+        }
+
+        $this->call('db:seed', $options);
     }
 }
