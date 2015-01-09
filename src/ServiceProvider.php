@@ -1,8 +1,6 @@
 <?php namespace Arcanedev\GeoIP;
 
-use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-
-class ServiceProvider extends IlluminateServiceProvider
+class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -59,6 +57,8 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     /**
      *  Register Services
+     *
+     * @return void
      */
     private function registerServices()
     {
@@ -67,6 +67,11 @@ class ServiceProvider extends IlluminateServiceProvider
         });
     }
 
+    /**
+     * Register Commands
+     *
+     * @return void
+     */
     private function registerCommands()
     {
         $this->app['geo-ip:install'] = $this->app->share(function($app)
