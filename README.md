@@ -19,11 +19,10 @@ You can install the package via [Composer](http://getcomposer.org/). Add this to
 
 ```json
 {
-  "require": {
-    ...
-    "arcanedev/geo-ip": "dev-master"
-    ...
-  }
+    "require": {
+        ...
+        "arcanedev/geo-ip": "~1.0"
+    }
 }
 ```
     
@@ -33,21 +32,19 @@ Then install via `composer install` or `composer update`.
 Once the package is installed, you can register the service provider in `app/config/app.php` in the `providers` array:
 
 ```php
-'providers' => array(
+'providers' => [
     ...
     'Arcanedev\GeoIP\ServiceProvider',
-    ...
-)
+],
 ```
 
 And the facade in the `aliases` array:
 
 ```php
-'aliases' => array(
+'aliases' => [
     ...
-    'Arcanedev\GeoIP\Facade',
-    ...
-)
+    'GeoIP' => 'Arcanedev\GeoIP\Facade',
+],
 ```
 
 #### Artisan Commands
