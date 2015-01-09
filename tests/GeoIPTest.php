@@ -47,8 +47,7 @@ class GeoIPTest extends TestCase
      */
     public function testCanSetAndGetIP()
     {
-        $this->assertNotEmpty($this->geoIp->getCurrentIp());
-        var_dump($this->geoIp->getCurrentIp()); // To see the travis IP
+        $this->assertEquals('127.0.0.1', $this->geoIp->getCurrentIp());
 
         $ip = '192.168.1.1';
         $this->geoIp->setIp($ip);
