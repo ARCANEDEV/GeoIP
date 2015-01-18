@@ -1,9 +1,9 @@
-GeoIP for Laravel
+GeoIP for Laravel [![Packagist License](http://img.shields.io/packagist/l/arcanedev/geo-ip.svg?style=flat-square)](https://github.com/ARCANEDEV/GeoIP/blob/master/LICENSE)
 ==============
 [![Travis Status](http://img.shields.io/travis/ARCANEDEV/GeoIP.svg?style=flat-square)](https://travis-ci.org/ARCANEDEV/GeoIP)
-[![Coverage Status](http://img.shields.io/coveralls/ARCANEDEV/GeoIP.svg?style=flat-square)](https://coveralls.io/r/ARCANEDEV/GeoIP?branch=master)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/GeoIP.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/GeoIP/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ARCANEDEV/GeoIP.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/GeoIP/?branch=master)
 [![Github Release](http://img.shields.io/github/release/ARCANEDEV/GeoIP.svg?style=flat-square)](https://github.com/ARCANEDEV/GeoIP/releases)
-[![Packagist License](http://img.shields.io/packagist/l/arcanedev/geo-ip.svg?style=flat-square)](https://github.com/ARCANEDEV/GeoIP/blob/master/LICENSE)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/arcanedev/geo-ip.svg?style=flat-square)](https://packagist.org/packages/arcanedev/geo-ip)
 [![Github Issues](http://img.shields.io/github/issues/ARCANEDEV/GeoIP.svg?style=flat-square)](https://github.com/ARCANEDEV/GeoIP/issues)
 
