@@ -41,7 +41,7 @@ class Nation extends BaseModel
      * @param QueryBuilder $query
      * @param string       $longIp
      *
-     * @return mixed
+     * @return QueryBuilder
      */
     public function scopeIp($query, $longIp)
     {
