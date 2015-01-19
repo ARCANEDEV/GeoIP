@@ -79,7 +79,7 @@ class GeoIP implements GeoIPInterface
      *
      * @param string $ip
      *
-     * @return Country
+     * @return Country|null
      */
     public function country($ip = '')
     {
@@ -89,7 +89,13 @@ class GeoIP implements GeoIPInterface
 
         $this->setIp($ip);
 
-        return Country::getByIp($this->ip);
+        if ($this->isLocalhost()) {
+            return null;
+        }
+
+        $longIp = GeoIP::toLong($this->ip);
+
+        return Country::getByIp($longIp);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -120,6 +126,16 @@ class GeoIP implements GeoIPInterface
     public static function toLong($ip)
     {
         return sprintf("%u", ip2long($ip));
+    }
+
+    /**
+     * Check if IP Address is a local machine
+     *
+     * @return bool
+     */
+    protected function isLocalhost()
+    {
+        return $this->ip == '127.0.0.1';
     }
 
     /* ------------------------------------------------------------------------------------------------
