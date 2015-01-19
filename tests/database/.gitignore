@@ -2,3 +2,4 @@
 *
 #... except for this one.
 !.gitignore
+!testing.sqlite

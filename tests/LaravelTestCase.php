@@ -1,5 +1,7 @@
 <?php namespace Arcanedev\GeoIP\Tests;
 
+use Illuminate\Foundation\Application;
+
 abstract class LaravelTestCase extends \Orchestra\Testbench\TestCase
 {
     /* ------------------------------------------------------------------------------------------------
@@ -20,6 +22,11 @@ abstract class LaravelTestCase extends \Orchestra\Testbench\TestCase
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Get Package Providers
+     *
+     * @return array
+     */
     protected function getPackageProviders()
     {
         return [
@@ -27,6 +34,11 @@ abstract class LaravelTestCase extends \Orchestra\Testbench\TestCase
         ];
     }
 
+    /**
+     * Get Package Aliases
+     *
+     * @return array
+     */
     protected function getPackageAliases()
     {
         return [
@@ -37,19 +49,24 @@ abstract class LaravelTestCase extends \Orchestra\Testbench\TestCase
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
+     * @param  Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
         $app['path.base']     = realpath(__DIR__ . '/../src');
         $app['path.database'] = realpath(__DIR__ . '/database');
 
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
+        $app['config']->set('database.connections',[
+            'testbench' => [
+                'driver'   => 'sqlite',
+                'database' => ':memory:',
+                'prefix'   => '',
+            ],
+            'testing'   => [
+                'driver'   => 'sqlite',
+                'database' => $app['path.database'] . '/testing.sqlite',
+                'prefix'   => '',
+            ],
         ]);
 
         $this->setPackageConfig($app);
@@ -58,13 +75,15 @@ abstract class LaravelTestCase extends \Orchestra\Testbench\TestCase
     /**
      * Define Package config
      *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
+     * @param Application $app
+     * @param string      $connection
      */
-    private function setPackageConfig($app)
+    protected function setPackageConfig($app, $connection = 'testbench')
     {
+        $app['config']->set('database.default', $connection);
+
         $app['config']->set('geo-ip::config', [
-            'connection' => 'testbench',
+            'connection' => $connection,
             'prefix'     => 'geo_',
             'table'      => [
                 'nations'   => 'nations',
