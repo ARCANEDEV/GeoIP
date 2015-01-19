@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\GeoIP\Models;
+<?php namespace Arcanedev\GeoIP\Laravel\Models;
 
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Support\Facades\Config;

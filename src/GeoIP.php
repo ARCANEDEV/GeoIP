@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\GeoIP;
 
 use Illuminate\Support\Facades\Request;
-use Arcanedev\GeoIP\Models\Country;
+use Arcanedev\GeoIP\Laravel\Models\Country;
 
 use Arcanedev\GeoIP\Exceptions\InvalidTypeException;
 use Arcanedev\GeoIP\Exceptions\InvalidIPAddressException;

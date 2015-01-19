@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\GeoIP\Models;
+<?php namespace Arcanedev\GeoIP\Laravel\Models;
 
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
@@ -32,7 +32,7 @@ class Country extends BaseModel
      */
     public function nations()
     {
-        return $this->hasMany('Arcanedev\\GeoIP\\Models\\Nation', 'code', 'code');
+        return $this->hasMany('Arcanedev\\GeoIP\\Laravel\\Models\\Nation', 'code', 'code');
     }
 
     /* ------------------------------------------------------------------------------------------------

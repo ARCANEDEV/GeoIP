@@ -1,4 +1,6 @@
-<?php namespace Arcanedev\GeoIP;
+<?php namespace Arcanedev\GeoIP\Laravel;
+
+use Arcanedev\GeoIP\GeoIP;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -24,7 +26,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
-        $this->package('arcanedev/geo-ip', 'geo-ip', __DIR__);
+        $this->package('arcanedev/geo-ip', 'geo-ip', realpath(__DIR__));
     }
 
     /**
@@ -74,12 +76,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app->bindShared('geo-ip:install', function($app) {
-            return new Commands\InstallCommand($app);
+        $this->app->bindShared('geo-ip:install', function() {
+            return new Commands\InstallCommand;
         });
 
-        $this->app->bindShared('geo-ip:dump', function($app) {
-            return new Commands\DumpSqlCommand($app);
+        $this->app->bindShared('geo-ip:dump', function() {
+            return new Commands\DumpSqlCommand;
         });
 
         $this->commands('geo-ip:install');

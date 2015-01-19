@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\GeoIP\Tests\Laravel;
 
-use Arcanedev\GeoIP\Facade as GeoIP;
+use Arcanedev\GeoIP\Laravel\Facade as GeoIP;
 use Arcanedev\GeoIP\Tests\LaravelTestCase;
 
 class FacadeTest extends LaravelTestCase

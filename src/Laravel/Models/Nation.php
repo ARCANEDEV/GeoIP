@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\GeoIP\Models;
+<?php namespace Arcanedev\GeoIP\Laravel\Models;
 
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
@@ -28,7 +28,7 @@ class Nation extends BaseModel
      */
     public function country()
     {
-        return $this->belongsTo('Arcanedev\\GeoIP\\Models\\Country', 'code', 'code');
+        return $this->belongsTo('Arcanedev\\GeoIP\\Laravel\\Models\\Country', 'code', 'code');
     }
 
     /* ------------------------------------------------------------------------------------------------

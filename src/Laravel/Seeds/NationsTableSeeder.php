@@ -1,16 +1,25 @@
-<?php namespace Arcanedev\GeoIP\Seeds;
+<?php namespace Arcanedev\GeoIP\Laravel\Seeds;
 
-use Illuminate\Database\Seeder         as Seeder;
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use Arcanedev\GeoIP\Collections\NationsCollection;
+use Arcanedev\GeoIP\Laravel\Models\Nation;
+use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class NationsTableSeeder extends Seeder
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    protected $nations;
 
-    const BASE_NAMESPACE = 'Arcanedev\\GeoIP\\Seeds\\';
+    /* ------------------------------------------------------------------------------------------------
+     |  Constructor
+     | ------------------------------------------------------------------------------------------------
+     */
+    public function __construct()
+    {
+        $this->nations = NationsCollection::init();
+    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -18,18 +27,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Eloquent::unguard();
-
-        $this->runSeeder('NationsTableSeeder');
-        $this->runSeeder('CountriesTableSeeder');
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    private function runSeeder($name)
-    {
-        $this->call(self::BASE_NAMESPACE . $name);
+        foreach ($this->nations->chunk(450)->toArray() as $nations) {
+            Nation::insert($nations);
+        }
     }
 }

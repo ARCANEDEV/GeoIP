@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\GeoIP\Commands;
+<?php namespace Arcanedev\GeoIP\Laravel\Commands;
 
 class BaseCommand extends \Illuminate\Console\Command
 {

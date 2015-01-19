@@ -30,7 +30,7 @@ abstract class LaravelTestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders()
     {
         return [
-            'Arcanedev\GeoIP\ServiceProvider'
+            'Arcanedev\GeoIP\Laravel\ServiceProvider'
         ];
     }
 
@@ -42,7 +42,7 @@ abstract class LaravelTestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageAliases()
     {
         return [
-            'GeoIP' => 'Arcanedev\GeoIP\Facade'
+            'GeoIP' => 'Arcanedev\GeoIP\Laravel\Facade'
         ];
     }
 

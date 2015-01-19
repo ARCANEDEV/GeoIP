@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\GeoIP\Commands;
+<?php namespace Arcanedev\GeoIP\Laravel\Commands;
 
 class InstallCommand extends BaseCommand
 {
@@ -49,16 +49,14 @@ class InstallCommand extends BaseCommand
     {
         $options = [
             '--package' => 'arcanedev/geo-ip',
+            '--path'    => 'Laravel/migrations',
         ];
 
         //if (! is_null($this->option('env'))) {
         //    $options['--env'] = $this->option('env');
         //}
 
-        if ($this->getLaravel()->environment('testing')){
-            $options['--database'] = 'testbench';
-            $options['--path']     = 'migrations';
-        }
+        $this->setTestingOptions($options);
 
         $this->call('migrate', $options);
     }
@@ -71,13 +69,23 @@ class InstallCommand extends BaseCommand
     private function runSeeds()
     {
         $options = [
-            '--class' => 'Arcanedev\\GeoIP\\Seeds\\DatabaseSeeder'
+            '--class' => 'Arcanedev\\GeoIP\\Laravel\\Seeds\\DatabaseSeeder'
         ];
 
+        $this->setTestingOptions($options);
+
+        $this->call('db:seed', $options);
+    }
+
+    /**
+     * Set additional Options for testing
+     *
+     * @param array $options
+     */
+    private function setTestingOptions(&$options)
+    {
         if ($this->getLaravel()->environment('testing')){
             $options['--database'] = 'testbench';
         }
-
-        $this->call('db:seed', $options);
     }
 }

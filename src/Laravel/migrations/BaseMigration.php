@@ -1,5 +1,6 @@
-<?php namespace Arcanedev\GeoIP\migrations;
+<?php namespace Arcanedev\GeoIP\Laravel\Migrations;
 
+use Closure;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
@@ -60,7 +61,12 @@ class BaseMigration extends Migration
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function create(Callable $blueprint)
+    /**
+     * Create migration table
+     *
+     * @param callable $blueprint
+     */
+    public function create(Closure $blueprint)
     {
         Schema::connection($this->connection())
             ->create($this->tableName(), $blueprint);
