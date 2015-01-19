@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Support\Facades\Config;
 
-class Base extends Model
+class BaseModel extends Model
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

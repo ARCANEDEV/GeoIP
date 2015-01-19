@@ -10,7 +10,7 @@
  * @property float  lon
  * @property Nation nation
  */
-class Country extends Base
+class Country extends BaseModel
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

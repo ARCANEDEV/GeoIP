@@ -7,7 +7,7 @@ use Arcanedev\GeoIP\GeoIP;
  * @property string  code
  * @property Country country
  */
-class Nation extends Base
+class Nation extends BaseModel
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
