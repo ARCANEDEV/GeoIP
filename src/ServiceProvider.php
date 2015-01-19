@@ -74,13 +74,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app['geo-ip:install'] = $this->app->share(function($app)
-        {
+        $this->app->bindShared('geo-ip:install', function($app) {
             return new Commands\InstallCommand($app);
         });
 
-        $this->app['geo-ip:dump'] = $this->app->share(function($app)
-        {
+        $this->app->bindShared('geo-ip:dump', function($app) {
             return new Commands\DumpSqlCommand($app);
         });
 

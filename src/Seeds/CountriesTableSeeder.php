@@ -1,8 +1,8 @@
 <?php namespace Arcanedev\GeoIP\Seeds;
 
-use Illuminate\Database\Seeder;
 use Arcanedev\GeoIP\Collections\CountriesCollection;
 use Arcanedev\GeoIP\Models\Country;
+use Illuminate\Database\Seeder;
 
 class CountriesTableSeeder extends Seeder
 {

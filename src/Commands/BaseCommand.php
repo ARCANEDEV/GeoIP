@@ -1,17 +1,13 @@
 <?php namespace Arcanedev\GeoIP\Commands;
 
-use Illuminate\Console\Command;
-
-class BaseCommand extends Command
+class BaseCommand extends \Illuminate\Console\Command
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Constrcutor
+     |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {

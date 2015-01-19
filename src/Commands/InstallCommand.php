@@ -70,7 +70,9 @@ class InstallCommand extends BaseCommand
      */
     private function runSeeds()
     {
-        $options['--class'] = 'Arcanedev\\GeoIP\\Seeds\\DatabaseSeeder';
+        $options = [
+            '--class' => 'Arcanedev\\GeoIP\\Seeds\\DatabaseSeeder'
+        ];
 
         if ($this->getLaravel()->environment('testing')){
             $options['--database'] = 'testbench';
