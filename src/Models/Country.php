@@ -1,14 +1,16 @@
 <?php namespace Arcanedev\GeoIP\Models;
 
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+
 /**
- * @property string code
- * @property string iso_code_2
- * @property string iso_code_3
- * @property string iso_country
- * @property string country
- * @property float  lat
- * @property float  lon
- * @property Nation nation
+ * @property string             code
+ * @property string             iso_code_2
+ * @property string             iso_code_3
+ * @property string             iso_country
+ * @property string             country
+ * @property float              lat
+ * @property float              lon
+ * @property EloquentCollection nations
  */
 class Country extends BaseModel
 {
@@ -18,18 +20,15 @@ class Country extends BaseModel
      */
     protected $tableKey = 'countries';
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Constructor
-     | ------------------------------------------------------------------------------------------------
-     */
-    public function __construct($attributes = [])
-    {
-        parent::__construct($attributes);
-    }
 
     /* ------------------------------------------------------------------------------------------------
      |  Relationships
      | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get Nations Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function nations()
     {
@@ -43,19 +42,14 @@ class Country extends BaseModel
     /**
      * Get Country By IP
      *
-     * @param string $ip
+     * @param string $longIp
      *
      * @return Country
      */
-    public static function getByIp($ip)
+    public static function getByIp($longIp)
     {
-        $country = null;
-        $nation  = Nation::getByIp($ip);
+        $nation  = Nation::getByIp($longIp);
 
-        if ($nation) {
-            $country = $nation->country;
-        }
-
-        return $country;
+        return $nation ? $nation->country : null;
     }
 }

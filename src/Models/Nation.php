@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\GeoIP\Models;
 
-use Arcanedev\GeoIP\GeoIP;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
  * @property string  ip
@@ -18,17 +18,13 @@ class Nation extends BaseModel
     protected $primaryKey = 'ip';
 
     /* ------------------------------------------------------------------------------------------------
-     |  Constructor
-     | ------------------------------------------------------------------------------------------------
-     */
-    public function __construct($attributes = [])
-    {
-        parent::__construct($attributes);
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Relationships
      | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get Country Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function country()
     {
@@ -39,11 +35,17 @@ class Nation extends BaseModel
      |  Scopes
      | ------------------------------------------------------------------------------------------------
      */
-    public function scopeIp($query, $ip)
+    /**
+     * IP Address condition scope
+     *
+     * @param QueryBuilder $query
+     * @param string       $longIp
+     *
+     * @return mixed
+     */
+    public function scopeIp($query, $longIp)
     {
-        $ip = GeoIP::toLong($ip);
-
-        return $query->where('ip', '<', $ip);
+        return $query->where('ip', '<', $longIp);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -53,12 +55,12 @@ class Nation extends BaseModel
     /**
      * Get Nation by IP
      *
-     * @param string $ip
+     * @param string $longIp
      *
      * @return Nation|null
      */
-    public static function getByIp($ip)
+    public static function getByIp($longIp)
     {
-        return self::ip($ip)->orderBy('ip', 'desc')->first();
+        return self::ip($longIp)->orderBy('ip', 'desc')->first();
     }
 }
