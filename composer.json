@@ -22,8 +22,7 @@
         },
         "classmap": [
             "src/migrations"
-        ],
-        "files": ["src/helpers.php"]
+        ]
     },
     "autoload-dev": {
         "psr-4": {
