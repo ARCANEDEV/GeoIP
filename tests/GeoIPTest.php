@@ -2,15 +2,17 @@
 
 use Arcanedev\GeoIP\GeoIP;
 
-class GeoIPTest extends TestCase
+class GeoIPTest extends LaravelTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    const GEOIP_CLASS = 'Arcanedev\\GeoIP\\GeoIP';
     /** @var GeoIP */
     private $geoIp;
+
+    const GEOIP_CLASS = 'Arcanedev\\GeoIP\\GeoIP';
+
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------

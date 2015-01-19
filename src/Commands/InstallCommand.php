@@ -51,9 +51,9 @@ class InstallCommand extends BaseCommand
             '--package' => 'arcanedev/geo-ip',
         ];
 
-        if (! is_null($this->option('env'))) {
-            $options['--env'] = $this->option('env');
-        }
+        //if (! is_null($this->option('env'))) {
+        //    $options['--env'] = $this->option('env');
+        //}
 
         if ($this->getLaravel()->environment('testing')){
             $options['--database'] = 'testbench';
