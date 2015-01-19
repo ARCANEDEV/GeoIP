@@ -1,13 +1,13 @@
-<?php namespace Arcanedev\GeoIP\Models;
+<?php namespace Arcanedev\GeoIP\Laravel\Models;
 
-use Arcanedev\GeoIP\GeoIP;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
  * @property string  ip
  * @property string  code
  * @property Country country
  */
-class Nation extends Base
+class Nation extends BaseModel
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
@@ -18,32 +18,34 @@ class Nation extends Base
     protected $primaryKey = 'ip';
 
     /* ------------------------------------------------------------------------------------------------
-     |  Constructor
-     | ------------------------------------------------------------------------------------------------
-     */
-    public function __construct($attributes = [])
-    {
-        parent::__construct($attributes);
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Relationships
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Get Country Relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function country()
     {
-        return $this->belongsTo('Arcanedev\\GeoIP\\Models\\Country', 'code', 'code');
+        return $this->belongsTo('Arcanedev\\GeoIP\\Laravel\\Models\\Country', 'code', 'code');
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Scopes
      | ------------------------------------------------------------------------------------------------
      */
-    public function scopeIp($query, $ip)
+    /**
+     * IP Address condition scope
+     *
+     * @param QueryBuilder $query
+     * @param string       $longIp
+     *
+     * @return mixed
+     */
+    public function scopeIp($query, $longIp)
     {
-        $ip = GeoIP::toLong($ip);
-
-        return $query->where('ip', '<', $ip);
+        return $query->where('ip', '<', $longIp);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -53,12 +55,12 @@ class Nation extends Base
     /**
      * Get Nation by IP
      *
-     * @param string $ip
+     * @param string $longIp
      *
      * @return Nation|null
      */
-    public static function getByIp($ip)
+    public static function getByIp($longIp)
     {
-        return self::ip($ip)->orderBy('ip', 'desc')->first();
+        return self::ip($longIp)->orderBy('ip', 'desc')->first();
     }
 }

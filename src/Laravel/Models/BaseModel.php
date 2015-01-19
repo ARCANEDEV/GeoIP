@@ -1,9 +1,9 @@
-<?php namespace Arcanedev\GeoIP\Models;
+<?php namespace Arcanedev\GeoIP\Laravel\Models;
 
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Support\Facades\Config;
 
-class Base extends Model
+class BaseModel extends Model
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

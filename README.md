@@ -21,7 +21,7 @@ You can install the package via [Composer](http://getcomposer.org/). Add this to
 {
     "require": {
         ...
-        "arcanedev/geo-ip": "~1.0"
+        "arcanedev/geo-ip": "~1.1"
     }
 }
 ```
@@ -34,7 +34,7 @@ Once the package is installed, you can register the service provider in `app/con
 ```php
 'providers' => [
     ...
-    'Arcanedev\GeoIP\ServiceProvider',
+    'Arcanedev\GeoIP\Laravel\ServiceProvider',
 ],
 ```
 
@@ -43,7 +43,7 @@ And the facade in the `aliases` array:
 ```php
 'aliases' => [
     ...
-    'GeoIP' => 'Arcanedev\GeoIP\Facade',
+    'GeoIP' => 'Arcanedev\GeoIP\Laravel\Facade',
 ],
 ```
 
@@ -89,8 +89,10 @@ Coming soon ...
 
   - [ ] Documentation
   - [ ] Examples
-  - [ ] More tests and code coverage.
-  - [ ] Refactoring.
+  - [x] More tests and code coverage
+  - [x] Laravel Support (v4.2)
+  - [ ] Laravel Support (v5.0)
+  - [ ] Refactoring
 
 ### CREDIT
 

@@ -1,4 +1,4 @@
-<?php namespace Arcanedev\GeoIP;
+<?php namespace Arcanedev\GeoIP\Laravel;
 
 class Facade extends \Illuminate\Support\Facades\Facade
 {

@@ -1,16 +1,16 @@
-<?php namespace Arcanedev\GeoIP\Seeds;
+<?php namespace Arcanedev\GeoIP\Laravel\Seeds;
 
+use Arcanedev\GeoIP\Collections\CountriesCollection;
+use Arcanedev\GeoIP\Laravel\Models\Country;
 use Illuminate\Database\Seeder;
-use Arcanedev\GeoIP\Collections\NationsCollection;
-use Arcanedev\GeoIP\Models\Nation;
 
-class NationsTableSeeder extends Seeder
+class CountriesTableSeeder extends Seeder
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    protected $nations;
+    protected $countries;
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -18,7 +18,7 @@ class NationsTableSeeder extends Seeder
      */
     public function __construct()
     {
-        $this->nations = NationsCollection::init();
+        $this->countries = CountriesCollection::init();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -27,8 +27,8 @@ class NationsTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach ($this->nations->chunk(450)->toArray() as $nations) {
-            Nation::insert($nations);
+        foreach ($this->countries->chunk(50)->toArray() as $countries) {
+            Country::insert($countries);
         }
     }
 }

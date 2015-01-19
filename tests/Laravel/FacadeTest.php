@@ -1,18 +1,10 @@
-<?php namespace Arcanedev\GeoIP\Tests;
+<?php namespace Arcanedev\GeoIP\Tests\Laravel;
 
-use Arcanedev\GeoIP\GeoIP;
+use Arcanedev\GeoIP\Laravel\Facade as GeoIP;
+use Arcanedev\GeoIP\Tests\LaravelTestCase;
 
-class GeoIPTest extends LaravelTestCase
+class FacadeTest extends LaravelTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
-     */
-    /** @var GeoIP */
-    private $geoIp;
-
-    const GEOIP_CLASS = 'Arcanedev\\GeoIP\\GeoIP';
-
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
@@ -20,17 +12,11 @@ class GeoIPTest extends LaravelTestCase
     public function setUp()
     {
         parent::setUp();
-
-        $this->geoIp = new GeoIP;
-
-        $this->setPackageConfig($this->app, 'testing');
     }
 
     public function tearDown()
     {
         parent::tearDown();
-
-        unset($this->geoIp);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -40,23 +26,16 @@ class GeoIPTest extends LaravelTestCase
     /**
      * @test
      */
-    public function testCanBeInstantiated()
+    public function testCanGetAndSetIp()
     {
-        $this->assertInstanceOf(self::GEOIP_CLASS, $this->geoIp);
-        $this->assertNotEmpty($this->geoIp->getIp());
-    }
+        $this->assertNotEmpty(GeoIP::getIp());
 
-    /**
-     * @test
-     */
-    public function testCanSetAndGetIP()
-    {
-        $this->assertEquals('127.0.0.1', $this->geoIp->getCurrentIp());
+        $this->assertEquals('127.0.0.1', GeoIP::getCurrentIp());
 
         $ip = '192.168.1.1';
-        $this->geoIp->setIp($ip);
+        GeoIP::setIp($ip);
 
-        $this->assertEquals($ip, $this->geoIp->getIp());
+        $this->assertEquals($ip, GeoIP::getIp());
     }
 
     /**
@@ -67,7 +46,7 @@ class GeoIPTest extends LaravelTestCase
      */
     public function testMustThrowInvalidTypeExceptionOnIP()
     {
-        $this->geoIp->setIp(0);
+        GeoIP::setIp(0);
     }
 
     /**
@@ -78,7 +57,7 @@ class GeoIPTest extends LaravelTestCase
      */
     public function testMustThrowInvalidIPAddressExceptionOnIP()
     {
-        $this->geoIp->setIp('hello');
+        GeoIP::setIp('hello');
     }
 
     /**
@@ -146,31 +125,5 @@ class GeoIPTest extends LaravelTestCase
             '118.6.138.15',
             GeoIP::toIp(1980140047)
         );
-    }
-
-    /**
-     * @test
-     */
-    public function testCanGetCountry()
-    {
-        $this->assertNull($this->geoIp->country());
-
-        $country = $this->geoIp->country('72.229.28.185');
-        $this->assertEquals('us', $country->code);
-        $this->assertEquals('US', $country->iso_code_2);
-        $this->assertEquals('USA', $country->iso_code_3);
-        $this->assertEquals('United States', $country->country);
-        $this->assertEquals('United States', $country->iso_country);
-        $this->assertEquals(38.0, $country->lat);
-        $this->assertEquals(-97.0, $country->lon);
-
-        $country = $this->geoIp->country('118.6.138.15');
-        $this->assertEquals('jp', $country->code);
-        $this->assertEquals('JP', $country->iso_code_2);
-        $this->assertEquals('JPN', $country->iso_code_3);
-        $this->assertEquals('Japan', $country->country);
-        $this->assertEquals('Japan', $country->iso_country);
-        $this->assertEquals(36.0, $country->lat);
-        $this->assertEquals(138.0, $country->lon);
     }
 }
