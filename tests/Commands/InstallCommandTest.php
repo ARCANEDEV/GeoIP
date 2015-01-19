@@ -47,5 +47,7 @@ class InstallCommandTest extends LaravelTestCase
 
         $this->assertTrue($schema->hasTable('migrations'));
         $this->assertEquals(0, DB::table('migrations')->count());
+        $this->assertFalse($schema->hasTable('geo_nations'));
+        $this->assertFalse($schema->hasTable('geo_countries'));
     }
 }
