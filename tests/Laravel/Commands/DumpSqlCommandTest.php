@@ -1,5 +1,4 @@
-<?php namespace Arcanedev\GeoIP\Tests\Commands;
-
+<?php namespace Arcanedev\GeoIP\Tests\Laravel\Commands;
 
 use Arcanedev\GeoIP\Tests\LaravelTestCase;
 
