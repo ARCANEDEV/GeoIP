@@ -1,6 +1,10 @@
 <?php
 
-// [code, iso_code_2, iso_code_3, iso_country, country, lat, lon],
+/**
+ * Last database update: January 8, 2015
+ *
+ * [code, iso_code_2, iso_code_3, iso_country, country, lat, lon],
+ */
 return [
     ['ad', 'AN', 'AND', 'Andorra', 'Andorra', 42.3, 1.3],
     ['ae', 'AR', 'ARE', 'United Arab Emirates', 'United Arab Emirates', 24, 54],

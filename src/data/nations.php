@@ -1,6 +1,10 @@
 <?php
 
-// [ip, country]
+/**
+ * Last database update: January 8, 2015
+ *
+ * [ip, country]
+ */
 return [
     [0,         'us'],
     [687865856, 'za'],
