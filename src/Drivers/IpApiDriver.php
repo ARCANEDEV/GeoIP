@@ -1,9 +1,8 @@
 <?php namespace Arcanedev\GeoIP\Drivers;
 
-use Arcanedev\GeoIP\Tasks\DownloadContinentsFileTask;
+use Arcanedev\GeoIP\Entities\Continents;
 use Exception;
 use GuzzleHttp\Client;
-use Illuminate\Support\Arr;
 
 /**
  * Class     IpApiDriver
@@ -25,11 +24,11 @@ class IpApiDriver extends AbstractDriver
     protected $client;
 
     /**
-     * An array of continents.
+     * A collection of continents.
      *
-     * @var array
+     * @var \Arcanedev\GeoIP\Entities\Continents
      */
-    protected $continents = [];
+    protected $continents;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -44,10 +43,7 @@ class IpApiDriver extends AbstractDriver
             $this->getHttpClientConfig()
         );
 
-        // Set continents
-        if (file_exists($path = $this->getOption('continents-path'))) {
-            $this->continents = json_decode(file_get_contents($path), true);
-        }
+        $this->continents = Continents::make();
     }
 
     /**
@@ -82,7 +78,7 @@ class IpApiDriver extends AbstractDriver
             'latitude'    => $data->lat,
             'longitude'   => $data->lon,
             'timezone'    => $data->timezone,
-            'continent'   => $this->getContinent($data->countryCode),
+            'continent'   => $this->continents->get($data->countryCode, 'Unknown'),
         ]);
     }
 
@@ -95,22 +91,9 @@ class IpApiDriver extends AbstractDriver
      */
     public function update()
     {
-        return DownloadContinentsFileTask::run(
-            'http://dev.maxmind.com/static/csv/codes/country_continent.csv',
-            $this->getOption('continents-path')
-        );
-    }
+        // Do nothing
 
-    /**
-     * Get continent based on country code.
-     *
-     * @param  string  $code
-     *
-     * @return string
-     */
-    private function getContinent($code)
-    {
-        return Arr::get($this->continents, $code, 'Unknown');
+        return true;
     }
 
     /**
