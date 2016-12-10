@@ -14,14 +14,6 @@ abstract class TestCase extends BaseTestCase
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
-//    public static function setUpBeforeClass()
-//    {
-//        \Arcanedev\GeoIP\Tasks\DownloadMaxmindDatabaseTask::run(
-//            'https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz',
-//            __DIR__ . '/../vendor/orchestra/testbench/fixture/storage/app/geo-ip/geoip.mmdb'
-//        );
-//    }
-
     public function setUp()
     {
         parent::setUp();

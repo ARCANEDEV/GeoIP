@@ -101,8 +101,8 @@ class GeoIPTest extends TestCase
             'default'     => false,
         ];
 
-        $this->assertSame($expected, $location->attributes());
-        $this->assertSame($expected, $location->toArray());
+        $this->assertContains($expected, $location->attributes());
+        $this->assertContains($expected, $location->toArray());
 
         $this->assertFalse($location->default);
         $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
@@ -128,8 +128,8 @@ class GeoIPTest extends TestCase
 
         $location = $this->geoip->location('255.255.255.255');
 
-        $this->assertSame($default, $location->attributes());
-        $this->assertSame($default, $location->toArray());
+        $this->assertContains($default, $location->attributes());
+        $this->assertContains($default, $location->toArray());
 
         $this->assertFalse($location->default);
         $this->assertSame($default['city'].', '.$default['state_code'], $location->display_name);

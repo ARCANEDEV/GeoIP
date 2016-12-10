@@ -11,14 +11,14 @@ use Arcanedev\GeoIP\Tests\TestCase;
 class MaxmindDatabaseDriverTest extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties 
+     |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /** @var  \Arcanedev\GeoIP\Drivers\MaxmindDatabaseDriver */
     protected $driver;
 
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions 
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     public function setUp()
@@ -38,7 +38,7 @@ class MaxmindDatabaseDriverTest extends TestCase
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Test Functions 
+     |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
@@ -67,11 +67,10 @@ class MaxmindDatabaseDriverTest extends TestCase
             'latitude'    => 44.9759,
             'longitude'   => -93.2166,
             'timezone'    => 'America/Chicago',
-            'continent'   => 'NA',
         ];
 
-        $this->assertSame($expected, $location->attributes());
-        $this->assertSame($expected, $location->toArray());
+        $this->assertContains($expected, $location->attributes());
+        $this->assertContains($expected, $location->toArray());
 
         $this->assertFalse($location->default);
         $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
@@ -107,7 +106,7 @@ class MaxmindDatabaseDriverTest extends TestCase
     private function switchDatabasePath()
     {
         $this->config()->set(
-            'geo-ip.supported.maxmind-database.options.database-path',
+            'geoip.supported.maxmind-database.options.database-path',
             realpath(__DIR__ . '/../fixture/data/geoip.mmdb')
         );
     }
@@ -120,7 +119,7 @@ class MaxmindDatabaseDriverTest extends TestCase
     private function getDatabasePath()
     {
         return realpath(
-            $this->config()->get('geo-ip.supported.maxmind-database.options.database-path')
+            $this->config()->get('geoip.supported.maxmind-database.options.database-path')
         );
     }
 }
