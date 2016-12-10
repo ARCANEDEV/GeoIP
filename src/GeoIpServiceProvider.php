@@ -72,6 +72,8 @@ class GeoIpServiceProvider extends PackageServiceProvider
     public function boot()
     {
         parent::boot();
+
+        $this->publishConfig();
     }
 
     /**
