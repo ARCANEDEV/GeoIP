@@ -9,14 +9,14 @@
 class DriverManagerTest extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties 
+     |  Properties
      | ------------------------------------------------------------------------------------------------
      */
     /** @var  \Arcanedev\GeoIp\DriverManager */
     private $manager;
 
     /* ------------------------------------------------------------------------------------------------
-     |  Main Functions 
+     |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
     public function setUp()
@@ -34,7 +34,7 @@ class DriverManagerTest extends TestCase
     }
 
     /* ------------------------------------------------------------------------------------------------
-     |  Test Functions 
+     |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
@@ -56,7 +56,7 @@ class DriverManagerTest extends TestCase
     public function it_can_get_default_driver()
     {
         $this->assertInstanceOf(
-            \Arcanedev\GeoIP\Drivers\IpApiDriver::class,
+            \Arcanedev\GeoIP\Drivers\FreeGeoIpDriver::class,
             $this->manager->driver()
         );
     }
@@ -65,6 +65,7 @@ class DriverManagerTest extends TestCase
     public function it_can_get_driver_by_name()
     {
         $drivers = [
+            'freegeoip'        => \Arcanedev\GeoIP\Drivers\FreeGeoIpDriver::class,
             'ip-api'           => \Arcanedev\GeoIP\Drivers\IpApiDriver::class,
             'maxmind-database' => \Arcanedev\GeoIP\Drivers\MaxmindDatabaseDriver::class,
             'maxmind-api'      => \Arcanedev\GeoIP\Drivers\MaxmindApiDriver::class,

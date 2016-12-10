@@ -4,27 +4,27 @@ return [
     /* ------------------------------------------------------------------------------------------------
      |  Default Driver
      | ------------------------------------------------------------------------------------------------
-     |  Supported: "maxmind-database", "maxmind-api", "ip-api"
+     |  Supported: 'freegeoip', 'ip-api', 'maxmind-database', 'maxmind-api'
      */
-    'default' => 'ip-api',
+    'default' => 'freegeoip',
 
     /* ------------------------------------------------------------------------------------------------
      |  Supported Drivers
      | ------------------------------------------------------------------------------------------------
      */
     'supported' => [
+        'freegeoip' => [
+            'driver'  => Arcanedev\GeoIP\Drivers\FreeGeoIpDriver::class,
+            'options' => [
+                'continents-path' => storage_path('app/geo-ip/continents.json'),
+            ],
+        ],
+
         'ip-api' => [
             'driver'  => Arcanedev\GeoIP\Drivers\IpApiDriver::class,
             'options' => [
                 'secure'          => true,
                 'key'             => env('IPAPI_KEY'),
-                'continents-path' => storage_path('app/geo-ip/continents.json'),
-            ],
-        ],
-
-        'freegeoip' => [
-            'driver'  => Arcanedev\GeoIP\Drivers\FreeGeoIpDriver::class,
-            'options' => [
                 'continents-path' => storage_path('app/geo-ip/continents.json'),
             ],
         ],
