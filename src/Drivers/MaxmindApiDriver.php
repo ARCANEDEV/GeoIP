@@ -62,4 +62,18 @@ class MaxmindApiDriver extends AbstractDriver
             'continent'   => $record->continent->code,
         ]);
     }
+
+    /**
+     * Update function for service.
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function update()
+    {
+        // Do nothing..
+
+        return true;
+    }
 }

@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\GeoIP\Drivers;
 
+use Arcanedev\GeoIP\Tasks\DownloadContinentsFileTask;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
@@ -94,22 +95,10 @@ class IpApiDriver extends AbstractDriver
      */
     public function update()
     {
-        $response = $this->client->get('http://dev.maxmind.com/static/csv/codes/country_continent.csv');
-        $content  = explode("\n", $response->getBody()->getContents());
-
-        array_shift($content);
-
-        $continents = [];
-
-        foreach (array_filter($content) as $data) {
-            list($country, $continent) = explode(',', $data);
-
-            $continents[$country] = $continent;
-        }
-
-        file_put_contents($this->getOption('continents-path'), json_encode($continents));
-
-        return true;
+        return DownloadContinentsFileTask::run(
+            'http://dev.maxmind.com/static/csv/codes/country_continent.csv',
+            $this->getOption('continents-path')
+        );
     }
 
     /**

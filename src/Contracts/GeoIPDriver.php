@@ -20,4 +20,13 @@ interface GeoIPDriver
      * @return \Arcanedev\GeoIP\Location
      */
     public function locate($ipAddress);
+
+    /**
+     * Update function for service.
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function update();
 }
