@@ -53,7 +53,7 @@ class DownloadMaxmindDatabaseTask
     private static function checkDestinationPath($path)
     {
         if (($path = realpath($path)) === false)
-            throw new Exception('Database path not set in getOption file.');
+            throw new Exception('Database path not set in options file.');
 
         return $path;
     }

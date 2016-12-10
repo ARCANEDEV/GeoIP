@@ -1,8 +1,7 @@
 <?php namespace Arcanedev\GeoIP\Drivers;
 
-use Arcanedev\GeoIP\Tasks\DownloadContinentsFileTask;
+use Arcanedev\GeoIP\Entities\Continents;
 use GuzzleHttp\Client;
-use Illuminate\Support\Arr;
 
 /**
  * Class     FreeGeoIpDriver
@@ -24,11 +23,11 @@ class FreeGeoIpDriver extends AbstractDriver
     protected $client;
 
     /**
-     * An array of continents.
+     * A collection of continents.
      *
-     * @var array
+     * @var \Arcanedev\GeoIP\Entities\Continents
      */
-    protected $continents = [];
+    protected $continents;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -46,10 +45,7 @@ class FreeGeoIpDriver extends AbstractDriver
             ]
         ]);
 
-        // Set continents
-        if (file_exists($path = $this->getOption('continents-path'))) {
-            $this->continents = json_decode(file_get_contents($path), true);
-        }
+        $this->continents = Continents::make();
     }
 
     /**
@@ -76,7 +72,7 @@ class FreeGeoIpDriver extends AbstractDriver
             'latitude'    => $data->latitude,
             'longitude'   => $data->longitude,
             'timezone'    => $data->time_zone,
-            'continent'   => $this->getContinent($data->country_code),
+            'continent'   => $this->continents->get($data->country_code, 'Unknown'),
         ]);
     }
 
@@ -89,21 +85,8 @@ class FreeGeoIpDriver extends AbstractDriver
      */
     public function update()
     {
-        return DownloadContinentsFileTask::run(
-            'http://dev.maxmind.com/static/csv/codes/country_continent.csv',
-            $this->getOption('continents-path')
-        );
-    }
+        // Do nothing
 
-    /**
-     * Get continent based on country code.
-     *
-     * @param  string  $code
-     *
-     * @return string
-     */
-    private function getContinent($code)
-    {
-        return Arr::get($this->continents, $code, 'Unknown');
+        return true;
     }
 }

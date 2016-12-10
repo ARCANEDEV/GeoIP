@@ -11,40 +11,16 @@ use Arcanedev\GeoIP\Tests\TestCase;
 class MaxmindDatabaseDriverTest extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------
-     |  Properties
-     | ------------------------------------------------------------------------------------------------
-     */
-    /** @var  \Arcanedev\GeoIP\Drivers\MaxmindDatabaseDriver */
-    protected $driver;
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        /** @var  \Arcanedev\GeoIP\Contracts\DriverFactory  $manager */
-        $manager      = $this->app->make(\Arcanedev\GeoIP\Contracts\DriverFactory::class);
-        $this->driver = $manager->driver('maxmind-database');
-    }
-
-    public function tearDown()
-    {
-        unset($this->driver);
-
-        parent::tearDown();
-    }
-
-    /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(\Arcanedev\GeoIP\Drivers\MaxmindDatabaseDriver::class, $this->driver);
+        $this->assertInstanceOf(
+            \Arcanedev\GeoIP\Drivers\MaxmindDatabaseDriver::class,
+            $this->makeDriver()
+        );
     }
 
     /** @test */
@@ -52,7 +28,7 @@ class MaxmindDatabaseDriverTest extends TestCase
     {
         $this->switchDatabasePath();
 
-        $location = $this->driver->locate('128.101.101.101');
+        $location = $this->makeDriver()->locate('128.101.101.101');
 
         $this->assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
 
@@ -67,10 +43,11 @@ class MaxmindDatabaseDriverTest extends TestCase
             'latitude'    => 44.9759,
             'longitude'   => -93.2166,
             'timezone'    => 'America/Chicago',
+            'continent' => 'NA',
         ];
 
-        $this->assertContains($expected, $location->attributes());
-        $this->assertContains($expected, $location->toArray());
+        $this->assertSame($expected, $location->attributes());
+        $this->assertSame($expected, $location->toArray());
 
         $this->assertFalse($location->default);
         $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
@@ -84,22 +61,25 @@ class MaxmindDatabaseDriverTest extends TestCase
      */
     public function it_must_throw_an_address_not_found_exception_on_locate()
     {
-        $this->driver->locate('127.0.0.1');
-    }
-
-    /** @test */
-    public function it_can_update()
-    {
-        $this->assertTrue($this->driver->update());
-        $this->assertNotFalse($path = $this->getDatabasePath());
-
-        unlink($path);
+        $this->makeDriver()->locate('127.0.0.1');
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * Make the driver.
+     *
+     * @return \Arcanedev\GeoIP\Contracts\GeoIPDriver
+     */
+    private function makeDriver()
+    {
+        $manager = $this->app->make(\Arcanedev\GeoIP\Contracts\DriverFactory::class);
+
+        return $manager->driver('maxmind-database');
+    }
+
     /**
      * Switch the database for tests.
      */
@@ -108,18 +88,6 @@ class MaxmindDatabaseDriverTest extends TestCase
         $this->config()->set(
             'geoip.supported.maxmind-database.options.database-path',
             realpath(__DIR__ . '/../fixture/data/geoip.mmdb')
-        );
-    }
-
-    /**
-     * Get the database path.
-     *
-     * @return string
-     */
-    private function getDatabasePath()
-    {
-        return realpath(
-            $this->config()->get('geoip.supported.maxmind-database.options.database-path')
         );
     }
 }
