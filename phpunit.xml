@@ -19,9 +19,7 @@
         <whitelist>
             <directory suffix=".php">./src/</directory>
             <exclude>
-                <directory suffix=".php">./src/data/</directory>
-                <directory suffix=".php">./src/Laravel/config/</directory>
-                <directory suffix=".php">./src/Laravel/views/</directory>
+                <directory suffix=".php">./tests/fixture/</directory>
             </exclude>
         </whitelist>
     </filter>
