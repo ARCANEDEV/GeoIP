@@ -57,6 +57,13 @@ class GeoIpServiceProvider extends PackageServiceProvider
         $this->registerGeoIpManager();
         $this->registerGeoIpCache();
         $this->registerGeoIp();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\ClearCommand::class,
+                Console\UpdateCommand::class,
+            ]);
+        }
     }
 
     /**
@@ -81,6 +88,9 @@ class GeoIpServiceProvider extends PackageServiceProvider
             Contracts\GeoIPDriver::class,
             Contracts\GeoIPCache::class,
             Contracts\DriverFactory::class,
+
+            Console\ClearCommand::class,
+            Console\UpdateCommand::class,
         ];
     }
 
