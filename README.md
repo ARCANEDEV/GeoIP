@@ -1,99 +1,42 @@
-GeoIP for Laravel [![Packagist License](http://img.shields.io/packagist/l/arcanedev/geo-ip.svg?style=flat-square)](https://github.com/ARCANEDEV/GeoIP/blob/master/LICENSE)
-==============
-[![Travis Status](http://img.shields.io/travis/ARCANEDEV/GeoIP.svg?style=flat-square)](https://travis-ci.org/ARCANEDEV/GeoIP)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/GeoIP.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/GeoIP/?branch=master)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ARCANEDEV/GeoIP.svg?style=flat-square)](https://scrutinizer-ci.com/g/ARCANEDEV/GeoIP/?branch=master)
-[![Github Release](http://img.shields.io/github/release/ARCANEDEV/GeoIP.svg?style=flat-square)](https://github.com/ARCANEDEV/GeoIP/releases)
-[![Packagist Downloads](https://img.shields.io/packagist/dt/arcanedev/geo-ip.svg?style=flat-square)](https://packagist.org/packages/arcanedev/geo-ip)
-[![Github Issues](http://img.shields.io/github/issues/ARCANEDEV/GeoIP.svg?style=flat-square)](https://github.com/ARCANEDEV/GeoIP/issues)
+# GeoIP [![Packagist License][badge_license]](LICENSE.md) [![For ARCANEDEV][badge_laravel]](https://github.com/ARCANEDEV/GeoIP#geoip)
+
+[![Travis Status][badge_build]](https://travis-ci.org/ARCANEDEV/GeoIP)
+[![Coverage Status][badge_coverage]](https://scrutinizer-ci.com/g/ARCANEDEV/GeoIP/?branch=master)
+[![Scrutinizer Code Quality][badge_quality]](https://scrutinizer-ci.com/g/ARCANEDEV/GeoIP/?branch=master)
+[![SensioLabs Insight][badge_insight]](https://insight.sensiolabs.com/projects/4a10299d-26e2-4c86-8f39-9c3a3aa93e0f)
+[![Github Issues][badge_issues]](https://github.com/ARCANEDEV/GeoIP/issues)
+
+[![Packagist][badge_package]](https://packagist.org/packages/arcanedev/geoip)
+[![Packagist Release][badge_release]](https://packagist.org/packages/arcanedev/geoip)
+[![Packagist Downloads][badge_downloads]](https://packagist.org/packages/arcanedev/geoip)
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
-### Requirements
-    
-    - PHP >= 5.4.0
-    
-### Composer
+GeoIP package for Laravel.
 
-You can install the package via [Composer](http://getcomposer.org/). Add this to your `composer.json`:
+Feel free to check out the [releases](https://github.com/ARCANEDEV/GeoIP/releases), [license](LICENSE.md), and [contribution guidelines](CONTRIBUTING.md).
 
-```json
-{
-    "require": {
-        ...
-        "arcanedev/geo-ip": "~1.1"
-    }
-}
-```
-    
-Then install via `composer install` or `composer update`.
+## Features
 
-### Laravel Installation
-Once the package is installed, you can register the service provider in `app/config/app.php` in the `providers` array:
+  - Coming soon&hellip;
 
-```php
-'providers' => [
-    ...
-    'Arcanedev\GeoIP\Laravel\ServiceProvider',
-],
-```
+## Security
 
-And the facade in the `aliases` array:
+If you discover any security related issues, please email arcanedev-maroc@gmail.com instead of using the issue tracker.
 
-```php
-'aliases' => [
-    ...
-    'GeoIP' => 'Arcanedev\GeoIP\Laravel\Facade',
-],
-```
+## Contribution
 
-#### Artisan Commands
-There are 2 commands available through this package:
-```
-php artisan geo-ip:install
-```
+Any ideas are welcome. Feel free to submit any issues or pull requests, please check the [contribution guidelines](CONTRIBUTING.md).
 
-Which simply migrate and seed all IPs and countries data for this package. Or
+[badge_laravel]:   https://img.shields.io/badge/For-Laravel%205.x-orange.svg?style=flat-square
+[badge_license]:   https://img.shields.io/packagist/l/arcanedev/geo-ip.svg?style=flat-square
 
-```
-php artisan geo-ip:dump
-```
+[badge_build]:     https://img.shields.io/travis/ARCANEDEV/GeoIP.svg?style=flat-square
+[badge_coverage]:  https://img.shields.io/scrutinizer/coverage/g/ARCANEDEV/GeoIP.svg?style=flat-square
+[badge_quality]:   https://img.shields.io/scrutinizer/g/ARCANEDEV/GeoIP.svg?style=flat-square
+[badge_insight]:   https://img.shields.io/sensiolabs/i/4a10299d-26e2-4c86-8f39-9c3a3aa93e0f.svg?style=flat-square
+[badge_issues]:    https://img.shields.io/github/issues/ARCANEDEV/GeoIP.svg?style=flat-square
 
-Which generate a SQL File for your database.
-
-### Configuration
-Publish the package configuration by using this command:
-
-```
-php artisan config:publish arcanedev/geo-ip
-```
-
-Update your settings in the generated `app/config/packages/arcanedev/geo-ip` configuration file.
-
-```php
-return [
-    'connection' => 'mysql',
-    'prefix'     => 'geo_',
-    'table'      => [
-        'nations'   => 'nations',
-        'countries' => 'countries',
-    ],
-    'dump'       => app_path() . '/database/geo-db.sql'
-];
-```
-
-## USAGE
-Coming soon ...
-
-### TODOS:
-
-  - [ ] Documentation
-  - [ ] Examples
-  - [x] More tests and code coverage
-  - [x] Laravel Support (v4.2)
-  - [ ] Laravel Support (v5.0)
-  - [ ] Refactoring
-
-### CREDIT
-
-Thanks to [ip2nation.com](http://ip2nation.com/) for the database.
+[badge_package]:   https://img.shields.io/badge/package-arcanedev/geo--ip-blue.svg?style=flat-square
+[badge_release]:   https://img.shields.io/packagist/v/arcanedev/geo-ip.svg?style=flat-square
+[badge_downloads]: https://img.shields.io/packagist/dt/arcanedev/geo-ip.svg?style=flat-square

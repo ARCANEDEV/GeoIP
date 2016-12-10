@@ -1,29 +1,65 @@
 <?php namespace Arcanedev\GeoIP;
 
-use Illuminate\Support\Facades\Request;
-use Arcanedev\GeoIP\Laravel\Models\Country;
+use Arcanedev\GeoIP\Contracts\GeoIP as GeoIPContract;
+use Arcanedev\GeoIP\Contracts\GeoIPCache;
+use Arcanedev\GeoIP\Contracts\GeoIPDriver;
+use Arcanedev\GeoIP\Support\GeoIPLogger;
+use Arcanedev\GeoIP\Support\IpDetector;
+use Arcanedev\GeoIP\Support\IpValidator;
+use Illuminate\Support\Arr;
 
-use Arcanedev\GeoIP\Exceptions\InvalidTypeException;
-use Arcanedev\GeoIP\Exceptions\InvalidIPAddressException;
-
-use Arcanedev\GeoIP\Contracts\GeoIPInterface;
-
-class GeoIP implements GeoIPInterface
+/**
+ * Class     GeoIP
+ *
+ * @package  Arcanedev\GeoIP
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ */
+class GeoIP implements GeoIPContract
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
+    /** @var \Arcanedev\GeoIP\Contracts\GeoIPDriver  */
+    private $driver;
+
+    /** @var \Arcanedev\GeoIP\Contracts\GeoIPCache  */
+    private $cache;
+
+    /** @var array */
+    protected $config = [];
+
+    /** @var  \Arcanedev\GeoIP\Location */
+    protected $location;
+
+    /** @var array */
+    protected $defaultLocation = [];
+
     /** @var string */
-    private $ip;
+    protected $remoteIp;
+
+    /** @var array */
+    protected $currencies;
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
-    public function __construct()
+    /**
+     * Create a new GeoIP instance.
+     *
+     * @param  \Arcanedev\GeoIP\Contracts\GeoIPDriver  $driver
+     * @param  \Arcanedev\GeoIP\Contracts\GeoIPCache   $cache
+     * @param  array                                   $config
+     */
+    public function __construct(GeoIPDriver $driver, GeoIPCache $cache, array $config)
     {
-        $this->ip = '';
+        $this->driver = $driver;
+        $this->cache  = $cache;
+        $this->config = $config;
+
+        $this->setDefaultLocation($this->config('location.default', []));
+        $this->remoteIp = $this->defaultLocation['ip'] = IpDetector::detect();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -31,43 +67,66 @@ class GeoIP implements GeoIPInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get Current IP
+     * Get the GeoIP driver instance.
      *
-     * @return string|null
+     * @return \Arcanedev\GeoIP\Contracts\GeoIPDriver
      */
-    public function getCurrentIp()
+    public function driver()
     {
-        return Request::ip();
+        return $this->driver;
     }
 
     /**
-     * Get IP
+     * Get cache instance.
+     *
+     * @return \Arcanedev\GeoIP\Contracts\GeoIPCache
+     */
+    public function cache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * Get configuration value.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     *
+     * @return mixed
+     */
+    private function config($key, $default = null)
+    {
+        return Arr::get($this->config, $key, $default);
+    }
+
+    /**
+     * Set the default location.
+     *
+     * @param  array  $location
+     *
+     * @return self
+     */
+    public function setDefaultLocation(array $location)
+    {
+        $this->defaultLocation = array_merge($this->defaultLocation, $location);
+
+        return $this;
+    }
+
+    /**
+     * Get the currency code from ISO.
+     *
+     * @param  string  $iso
      *
      * @return string
      */
-    public function getIp()
+    public function getCurrency($iso)
     {
-        if (empty($this->ip)) {
-            $this->ip = $this->getCurrentIp();
+        if ($this->currencies === null && $this->config('currencies.included', false)) {
+            $this->currencies = $this->config('currencies.data', []);
         }
 
-        return $this->ip;
-    }
-
-    /**
-     * Set IP
-     *
-     * @param string $ip
-     *
-     * @return $this
-     */
-    public function setIp($ip)
-    {
-        $this->checkIp($ip);
-
-        $this->ip = $ip;
-
-        return $this;
+        return Arr::get($this->currencies, $iso);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -75,93 +134,84 @@ class GeoIP implements GeoIPInterface
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Get Country By Ip
+     * Get the location from the provided IP.
      *
-     * @param string $ip
+     * @param  string  $ipAddress
      *
-     * @return Country|null
+     * @return \Arcanedev\GeoIP\Location
      */
-    public function country($ip = '')
+    public function location($ipAddress = null)
     {
-        if (empty($ip)) {
-            $ip = $this->getIp();
+        $this->location = $this->find($ipAddress);
+
+        if ($this->shouldCache($ipAddress, $this->location)) {
+            $this->cache()->set($ipAddress, $this->location->toArray());
         }
 
-        $this->setIp($ip);
+        return $this->location;
+    }
 
-        if ($this->isLocalhost()) {
-            return null;
+    /**
+     * Find location from IP.
+     *
+     * @param  string  $ip
+     *
+     * @return \Arcanedev\GeoIP\Location
+     *
+     * @throws \Exception
+     */
+    private function find($ip = null)
+    {
+        if ($this->config('cache.mode', 'none') !== 'none' && $location = $this->cache()->get($ip)) {
+            $location->setAttribute('cached', true);
+
+            return $location;
         }
 
-        $longIp = GeoIP::toLong($this->ip);
+        $ip = $ip ?: $this->remoteIp;
 
-        return Country::getByIp($longIp);
-    }
+        if (IpValidator::validate($ip)) {
+            try {
+                $location = $this->driver()->locate($ip);
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Convert Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Convert Long to IP
-     *
-     * @param $long
-     *
-     * @return string
-     */
-    public static function toIp($long)
-    {
-        $long = 4294967295 - ($long - 1);
+                if (is_null($location->currency)) {
+                    $location->setAttribute('currency', $this->getCurrency($location->iso_code));
+                }
 
-        return long2ip(-$long);
-    }
+                $location->setAttribute('default', false);
 
-    /**
-     * Convert IP to Long
-     *
-     * @param string $ip
-     *
-     * @return string
-     */
-    public static function toLong($ip)
-    {
-        return sprintf("%u", ip2long($ip));
+                return $location;
+            }
+            catch (\Exception $e) {
+                GeoIPLogger::log($e);
+            }
+        }
+
+        return new Location($this->defaultLocation);
     }
 
     /**
-     * Check if IP Address is a local machine
+     * Determine if the location should be cached.
+     *
+     * @param  string|null                $ipAddress
+     * @param  \Arcanedev\GeoIP\Location  $location
      *
      * @return bool
      */
-    protected function isLocalhost()
+    private function shouldCache($ipAddress = null, Location $location)
     {
-        return $this->ip == '127.0.0.1';
-    }
+        if ($location->default === true || $location->cached === true)
+            return false;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Check IP Address
-     *
-     * @param string $ip
-     *
-     * @throws InvalidTypeException
-     * @throws InvalidIPAddressException
-     */
-    private function checkIp(&$ip)
-    {
-        if (! is_string($ip)) {
-            throw new InvalidTypeException(
-                'The IP Address must be a string value, '. gettype($ip) . ' is given'
-            );
+        switch ($this->config('cache.mode', 'none')) {
+            case 'all':
+                return true;
+
+            case 'some':
+                if ($ipAddress === null)
+                    return true;
         }
 
-        if (! filter_var($ip, FILTER_VALIDATE_IP)) {
-            throw new InvalidIPAddressException(
-                'The IP Address is not valid [' . $ip .']'
-            );
-        }
+        return false;
     }
 }

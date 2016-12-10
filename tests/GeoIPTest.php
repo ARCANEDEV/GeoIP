@@ -1,17 +1,19 @@
 <?php namespace Arcanedev\GeoIP\Tests;
 
-use Arcanedev\GeoIP\GeoIP;
-
-class GeoIPTest extends LaravelTestCase
+/**
+ * Class     GeoIPTest
+ *
+ * @package  Arcanedev\GeoIP\Tests
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ */
+class GeoIPTest extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var GeoIP */
-    private $geoIp;
-
-    const GEOIP_CLASS = 'Arcanedev\\GeoIP\\GeoIP';
+    /** @var  \Arcanedev\GeoIP\GeoIP */
+    private $geoip;
 
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -21,156 +23,115 @@ class GeoIPTest extends LaravelTestCase
     {
         parent::setUp();
 
-        $this->geoIp = new GeoIP;
-
-        $this->setPackageConfig($this->app, 'testing');
+        $this->geoip = $this->app->make(\Arcanedev\GeoIP\Contracts\GeoIP::class);
     }
 
     public function tearDown()
     {
-        parent::tearDown();
+        unset($this->geoip);
 
-        unset($this->geoIp);
+        parent::tearDown();
     }
 
     /* ------------------------------------------------------------------------------------------------
      |  Test Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * @test
-     */
-    public function testCanBeInstantiated()
+    /** @test */
+    public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(self::GEOIP_CLASS, $this->geoIp);
-        $this->assertNotEmpty($this->geoIp->getIp());
+        $expectations = [
+            \Arcanedev\GeoIP\Contracts\GeoIP::class,
+            \Arcanedev\GeoIP\GeoIP::class,
+        ];
+
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->geoip);
+        }
     }
 
-    /**
-     * @test
-     */
-    public function testCanSetAndGetIP()
+    /** @test */
+    public function it_can_get_driver()
     {
-        $this->assertEquals('127.0.0.1', $this->geoIp->getCurrentIp());
-
-        $ip = '192.168.1.1';
-        $this->geoIp->setIp($ip);
-
-        $this->assertEquals($ip, $this->geoIp->getIp());
+        $this->assertInstanceOf(\Arcanedev\GeoIP\Contracts\GeoIPDriver::class, $this->geoip->driver());
     }
 
-    /**
-     * @test
-     *
-     * @expectedException \Arcanedev\GeoIP\Exceptions\InvalidTypeException
-     * @expectedExceptionMessage The IP Address must be a string value, integer is given
-     */
-    public function testMustThrowInvalidTypeExceptionOnIP()
+    /** @test */
+    public function it_can_get_cache()
     {
-        $this->geoIp->setIp(0);
+        $this->assertInstanceOf(\Arcanedev\GeoIP\Contracts\GeoIPCache::class, $this->geoip->cache());
     }
 
-    /**
-     * @test
-     *
-     * @expectedException \Arcanedev\GeoIP\Exceptions\InvalidIPAddressException
-     * @expectedExceptionMessage The IP Address is not valid [hello]
-     */
-    public function testMustThrowInvalidIPAddressExceptionOnIP()
+    /** @test */
+    public function it_can_get_currency_from_config()
     {
-        $this->geoIp->setIp('hello');
+        $currencies = [
+            'FR' => 'EUR',
+            'MA' => 'MAD',
+            'US' => 'USD',
+        ];
+
+        foreach ($currencies as $iso => $expected) {
+            $this->assertSame($expected, $this->geoip->getCurrency($iso));
+        }
     }
 
-    /**
-     * @test
-     */
-    public function testCanConvertIpToLong()
+    /** @test */
+    public function it_can_get_location()
     {
-        $this->assertEquals(
-            1,
-            GeoIP::toLong('0.0.0.1')
-        );
-        $this->assertEquals(
-            4294967294,
-            GeoIP::toLong('255.255.255.254')
-        );
-        $this->assertEquals(
-            2130706433,
-            GeoIP::toLong('127.0.0.1')
-        );
-        $this->assertEquals(
-            3232235777,
-            GeoIP::toLong('192.168.1.1')
-        );
-        // New York
-        $this->assertEquals(
-            1222974649,
-            GeoIP::toLong('72.229.28.185')
-        );
-        // Tokyo
-        $this->assertEquals(
-            1980140047,
-            GeoIP::toLong('118.6.138.15')
-        );
+        $ip = '128.101.101.101';
+
+        $location = $this->geoip->location($ip);
+
+        $this->assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
+
+        $expected = [
+            'ip'          => '128.101.101.101',
+            'iso_code'    => 'US',
+            'country'     => 'United States',
+            'city'        => 'Minneapolis',
+            'state'       => 'Minnesota',
+            'state_code'  => 'MN',
+            'postal_code' => '55414',
+            'latitude'    => 44.9759,
+            'longitude'   => -93.2166,
+            'timezone'    => 'America/Chicago',
+            'continent'   => 'NA',
+            'currency'    => 'USD',
+            'default'     => false,
+        ];
+
+        $this->assertContains($expected, $location->attributes());
+        $this->assertContains($expected, $location->toArray());
+
+        $this->assertFalse($location->default);
+        $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
     }
 
-    /**
-     * @test
-     */
-    public function testCanConvertLongToIp()
+    /** @test */
+    public function it_can_get_default_location()
     {
-        $this->assertEquals(
-            '0.0.0.1',
-            GeoIP::toIp(1)
-        );
-        $this->assertEquals(
-            '255.255.255.254',
-            GeoIP::toIp(4294967294)
-        );
-        $this->assertEquals(
-            '127.0.0.1',
-            GeoIP::toIp(2130706433)
-        );
-        $this->assertEquals(
-            '192.168.1.1',
-            GeoIP::toIp(3232235777)
-        );
+        $this->geoip->setDefaultLocation($default  = [
+            'ip'          => '127.0.0.1',
+            'iso_code'    => 'ZZ',
+            'country'     => 'Zootopia',
+            'city'        => 'Tundratown city',
+            'state'       => 'Tundratown',
+            'state_code'  => 'TU',
+            'postal_code' => '112233',
+            'latitude'    => 12,
+            'longitude'   => 12,
+            'timezone'    => 'UTC',
+            'continent'   => 'Disney',
+            'currency'    => 'ZZZ',
+        ]);
 
-        // New York
-        $this->assertEquals(
-            '72.229.28.185',
-            GeoIP::toIp(1222974649)
-        );
-        // Tokyo
-        $this->assertEquals(
-            '118.6.138.15',
-            GeoIP::toIp(1980140047)
-        );
-    }
+        $location = $this->geoip->location('255.255.255.255');
 
-    /**
-     * @test
-     */
-    public function testCanGetCountry()
-    {
-        $this->assertNull($this->geoIp->country());
+        $this->assertContains($default, $location->attributes());
+        $this->assertContains($default, $location->toArray());
 
-        $country = $this->geoIp->country('72.229.28.185');
-        $this->assertEquals('us', $country->code);
-        $this->assertEquals('US', $country->iso_code_2);
-        $this->assertEquals('USA', $country->iso_code_3);
-        $this->assertEquals('United States', $country->country);
-        $this->assertEquals('United States', $country->iso_country);
-        $this->assertEquals(38.0, $country->lat);
-        $this->assertEquals(-97.0, $country->lon);
-
-        $country = $this->geoIp->country('118.6.138.15');
-        $this->assertEquals('jp', $country->code);
-        $this->assertEquals('JP', $country->iso_code_2);
-        $this->assertEquals('JPN', $country->iso_code_3);
-        $this->assertEquals('Japan', $country->country);
-        $this->assertEquals('Japan', $country->iso_country);
-        $this->assertEquals(36.0, $country->lat);
-        $this->assertEquals(138.0, $country->lon);
+        $this->assertFalse($location->default);
+        $this->assertSame($default['city'].', '.$default['state_code'], $location->display_name);
     }
 }

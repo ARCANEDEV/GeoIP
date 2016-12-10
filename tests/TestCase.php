@@ -1,6 +1,14 @@
 <?php namespace Arcanedev\GeoIP\Tests;
 
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+use Orchestra\Testbench\TestCase as BaseTestCase;
+
+/**
+ * Class     TestCase
+ *
+ * @package  Arcanedev\GeoIP\Tests
+ * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ */
+abstract class TestCase extends BaseTestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -9,10 +17,59 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->app->loadDeferredProviders();
     }
 
-    public function tearDown()
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function getPackageProviders($app)
     {
-        parent::tearDown();
+        return [
+            \Arcanedev\GeoIP\GeoIpServiceProvider::class,
+        ];
+    }
+
+    /**
+     * Get package aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function getPackageAliases($app)
+    {
+        return [
+            'GeoIP' => \Arcanedev\GeoIP\Facades\GeoIP::class,
+        ];
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        //
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Get the config instance.
+     *
+     * @return \Illuminate\Contracts\Config\Repository
+     */
+    protected function config()
+    {
+        return $this->app['config'];
     }
 }
