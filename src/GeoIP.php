@@ -3,6 +3,7 @@
 use Arcanedev\GeoIP\Contracts\GeoIP as GeoIPContract;
 use Arcanedev\GeoIP\Contracts\GeoIPCache;
 use Arcanedev\GeoIP\Contracts\GeoIPDriver;
+use Arcanedev\GeoIP\Entities\Currencies;
 use Arcanedev\GeoIP\Support\GeoIPLogger;
 use Arcanedev\GeoIP\Support\IpDetector;
 use Arcanedev\GeoIP\Support\IpValidator;
@@ -37,9 +38,6 @@ class GeoIP implements GeoIPContract
 
     /** @var string */
     protected $remoteIp;
-
-    /** @var array */
-    protected $currencies;
 
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
@@ -122,11 +120,9 @@ class GeoIP implements GeoIPContract
      */
     public function getCurrency($iso)
     {
-        if ($this->currencies === null && $this->config('currencies.included', false)) {
-            $this->currencies = $this->config('currencies.data', []);
-        }
-
-        return Arr::get($this->currencies, $iso);
+        return (bool) $this->config('currencies.included', false)
+            ? Currencies::make()->get($iso, $iso)
+            : $iso;
     }
 
     /* ------------------------------------------------------------------------------------------------
