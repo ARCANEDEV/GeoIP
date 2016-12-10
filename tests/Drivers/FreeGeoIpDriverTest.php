@@ -3,18 +3,18 @@
 use Arcanedev\GeoIP\Tests\TestCase;
 
 /**
- * Class     IpApiDriverTest
+ * Class     FreeGeoIpDriverTest
  *
  * @package  Arcanedev\GeoIP\Tests\Drivers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class IpApiDriverTest extends TestCase
+class FreeGeoIpDriverTest extends TestCase
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties
      | ------------------------------------------------------------------------------------------------
      */
-    /** @var  \Arcanedev\GeoIP\Drivers\IpApiDriver */
+    /** @var  \Arcanedev\GeoIP\Drivers\FreeGeoIpDriver */
     protected $driver;
 
     /* ------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ class IpApiDriverTest extends TestCase
 
         /** @var  \Arcanedev\GeoIP\Contracts\DriverFactory  $manager */
         $manager      = $this->app->make(\Arcanedev\GeoIP\Contracts\DriverFactory::class);
-        $this->driver = $manager->driver('ip-api');
+        $this->driver = $manager->driver('freegeoip');
     }
 
     public function tearDown()
@@ -46,7 +46,7 @@ class IpApiDriverTest extends TestCase
     {
         $expectations = [
             \Arcanedev\GeoIP\Contracts\GeoIPDriver::class,
-            \Arcanedev\GeoIP\Drivers\IpApiDriver::class,
+            \Arcanedev\GeoIP\Drivers\FreeGeoIpDriver::class,
         ];
 
         foreach ($expectations as $expected) {

@@ -25,58 +25,6 @@ class DriverManager extends Manager implements DriverFactory
         return $this->getConfig('default');
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Build the 'ip-api' driver.
-     *
-     * @return Drivers\IpApiDriver
-     */
-    protected function createIpApiDriver()
-    {
-        return $this->buildDriver('ip-api');
-    }
-
-    /**
-     * Get the 'maxmind-database' driver.
-     *
-     * @return mixed
-     */
-    protected function createMaxmindDatabaseDriver()
-    {
-        return $this->buildDriver('maxmind-database');
-    }
-
-    /**
-     * Get the 'maxmind-api' driver.
-     *
-     * @return Drivers\MaxmindApiDriver
-     */
-    protected function createMaxmindApiDriver()
-    {
-        return $this->buildDriver('maxmind-api');
-    }
-
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
-     */
-    /**
-     * Build the driver.
-     *
-     * @param  string  $key
-     *
-     * @return mixed
-     */
-    private function buildDriver($key)
-    {
-        $class = $this->getDriverClass($key);
-
-        return new $class($this->getDriverOptions($key));
-    }
-
     /**
      * Get the driver class.
      *
@@ -122,5 +70,67 @@ class DriverManager extends Manager implements DriverFactory
     private function config()
     {
         return $this->app['config'];
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Build the 'ip-api' driver.
+     *
+     * @return Drivers\IpApiDriver
+     */
+    protected function createIpApiDriver()
+    {
+        return $this->buildDriver('ip-api');
+    }
+
+    /**
+     * Build the 'freegeoip' driver.
+     *
+     * @return Drivers\FreeGeoIpDriver
+     */
+    protected function createFreegeoipDriver()
+    {
+        return $this->buildDriver('freegeoip');
+    }
+
+    /**
+     * Get the 'maxmind-database' driver.
+     *
+     * @return mixed
+     */
+    protected function createMaxmindDatabaseDriver()
+    {
+        return $this->buildDriver('maxmind-database');
+    }
+
+    /**
+     * Get the 'maxmind-api' driver.
+     *
+     * @return Drivers\MaxmindApiDriver
+     */
+    protected function createMaxmindApiDriver()
+    {
+        return $this->buildDriver('maxmind-api');
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Build the driver.
+     *
+     * @param  string  $key
+     *
+     * @return mixed
+     */
+    private function buildDriver($key)
+    {
+        $class = $this->getDriverClass($key);
+
+        return new $class($this->getDriverOptions($key));
     }
 }

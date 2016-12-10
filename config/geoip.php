@@ -22,6 +22,13 @@ return [
             ],
         ],
 
+        'freegeoip' => [
+            'driver'  => Arcanedev\GeoIP\Drivers\FreeGeoIpDriver::class,
+            'options' => [
+                'continents-path' => storage_path('app/geo-ip/continents.json'),
+            ],
+        ],
+
         'maxmind-api' => [
             'driver'  => Arcanedev\GeoIP\Drivers\MaxmindApiDriver::class,
             'options' => [
