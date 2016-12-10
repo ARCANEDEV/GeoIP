@@ -72,10 +72,11 @@ class IpApiDriverTest extends TestCase
             'latitude'    => 44.9759,
             'longitude'   => -93.2166,
             'timezone'    => 'America/Chicago',
+            'continent'   => 'NA',
         ];
 
-        $this->assertContains($expected, $location->attributes());
-        $this->assertContains($expected, $location->toArray());
+        $this->assertSame($expected, $location->attributes());
+        $this->assertSame($expected, $location->toArray());
 
         $this->assertFalse($location->default);
         $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);

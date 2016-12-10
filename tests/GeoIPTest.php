@@ -101,15 +101,15 @@ class GeoIPTest extends TestCase
             'default'     => false,
         ];
 
-        $this->assertContains($expected, $location->attributes());
-        $this->assertContains($expected, $location->toArray());
+        $this->assertSame($expected, $location->attributes());
+        $this->assertSame($expected, $location->toArray());
 
         $this->assertFalse($location->default);
         $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
     }
 
     /** @test */
-    public function it_can_get_default_location()
+    public function it_can_get_default_location_if_it_fails()
     {
         $this->geoip->setDefaultLocation($default  = [
             'ip'          => '127.0.0.1',
@@ -126,10 +126,10 @@ class GeoIPTest extends TestCase
             'currency'    => 'ZZZ',
         ]);
 
-        $location = $this->geoip->location('255.255.255.255');
+        $location = $this->geoip->location('0.0.0');
 
-        $this->assertContains($default, $location->attributes());
-        $this->assertContains($default, $location->toArray());
+        $this->assertSame($default, $location->attributes());
+        $this->assertSame($default, $location->toArray());
 
         $this->assertFalse($location->default);
         $this->assertSame($default['city'].', '.$default['state_code'], $location->display_name);
