@@ -6,9 +6,9 @@
 [![SensioLabs Insight][badge_insight]](https://insight.sensiolabs.com/projects/4a10299d-26e2-4c86-8f39-9c3a3aa93e0f)
 [![Github Issues][badge_issues]](https://github.com/ARCANEDEV/GeoIP/issues)
 
-[![Packagist][badge_package]](https://packagist.org/packages/arcanedev/geoip)
-[![Packagist Release][badge_release]](https://packagist.org/packages/arcanedev/geoip)
-[![Packagist Downloads][badge_downloads]](https://packagist.org/packages/arcanedev/geoip)
+[![Packagist][badge_package]](https://packagist.org/packages/arcanedev/geo-ip)
+[![Packagist Release][badge_release]](https://packagist.org/packages/arcanedev/geo-ip)
+[![Packagist Downloads][badge_downloads]](https://packagist.org/packages/arcanedev/geo-ip)
 
 *By [ARCANEDEV&copy;](http://www.arcanedev.net/)*
 
