@@ -105,9 +105,7 @@ class GeoIpServiceProvider extends PackageServiceProvider
      */
     private function registerGeoIpManager()
     {
-        $this->singleton(Contracts\DriverFactory::class, function ($app) {
-            return new DriverManager($app);
-        });
+        $this->singleton(Contracts\DriverFactory::class, DriverManager::class);
 
         $this->singleton(Contracts\GeoIPDriver::class, function ($app) {
             return $app[Contracts\DriverFactory::class]->driver();

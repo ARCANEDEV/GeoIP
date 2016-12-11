@@ -15,7 +15,7 @@ class MaxmindApiDriver extends AbstractDriver
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Service client instance.
+     * Http client instance.
      *
      * @var \GeoIp2\WebService\Client
      */
@@ -61,19 +61,5 @@ class MaxmindApiDriver extends AbstractDriver
             'timezone'    => $record->location->timeZone,
             'continent'   => $record->continent->code,
         ]);
-    }
-
-    /**
-     * Update function for service.
-     *
-     * @return bool
-     *
-     * @throws \Exception
-     */
-    public function update()
-    {
-        // Do nothing..
-
-        return true;
     }
 }

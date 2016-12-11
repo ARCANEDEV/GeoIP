@@ -49,7 +49,7 @@ class Location implements ArrayAccess, Arrayable, Jsonable
     /**
      * Create a new location instance.
      *
-     * @param array $attributes
+     * @param  array  $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -71,7 +71,7 @@ class Location implements ArrayAccess, Arrayable, Jsonable
     }
 
     /**
-     * Get an attribute from the $attributes array.
+     * Get an attribute from the location.
      *
      * @param  string  $key
      *

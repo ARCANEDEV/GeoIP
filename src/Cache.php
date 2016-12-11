@@ -73,7 +73,7 @@ class Cache implements GeoIPCache
     }
 
     /**
-     * Store an item in cache.
+     * Set an item in cache.
      *
      * @param  string  $key
      * @param  array   $location

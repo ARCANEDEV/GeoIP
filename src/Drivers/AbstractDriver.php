@@ -47,6 +47,20 @@ abstract class AbstractDriver implements GeoIPDriver
      */
     abstract protected function init();
 
+    /**
+     * Update the driver.
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function update()
+    {
+        // Do nothing
+
+        return true;
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Other Functions
      | ------------------------------------------------------------------------------------------------

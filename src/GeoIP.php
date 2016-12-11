@@ -204,7 +204,7 @@ class GeoIP implements GeoIPContract
                 return true;
 
             case 'some':
-                if ($ipAddress === null)
+                if (is_null($ipAddress))
                     return true;
         }
 

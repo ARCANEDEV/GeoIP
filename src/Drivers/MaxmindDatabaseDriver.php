@@ -16,7 +16,7 @@ class MaxmindDatabaseDriver extends AbstractDriver
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * Service reader instance.
+     * Driver reader instance.
      *
      * @var \GeoIp2\Database\Reader
      */

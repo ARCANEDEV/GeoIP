@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\GeoIP\Contracts;
 
-use Arcanedev\GeoIP\Location;
-
 /**
  * Interface  GeoIPCache
  *

@@ -2,6 +2,7 @@
 
 use Arcanedev\GeoIP\Contracts\DriverFactory;
 use Arcanedev\Support\Manager;
+use Illuminate\Contracts\Foundation\Application;
 
 /**
  * Class     DriverManager
@@ -11,6 +12,20 @@ use Arcanedev\Support\Manager;
  */
 class DriverManager extends Manager implements DriverFactory
 {
+    /* ------------------------------------------------------------------------------------------------
+     |  Constructor
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * DriverManager constructor.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     */
+    public function __construct(Application $app)
+    {
+        parent::__construct($app);
+    }
+
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
      | ------------------------------------------------------------------------------------------------
@@ -63,7 +78,7 @@ class DriverManager extends Manager implements DriverFactory
     }
 
     /**
-     * Get the getOption instance.
+     * Get the config instance.
      *
      * @return \Illuminate\Contracts\Config\Repository
      */

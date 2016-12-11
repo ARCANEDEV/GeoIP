@@ -83,20 +83,6 @@ class IpApiDriver extends AbstractDriver
     }
 
     /**
-     * Update function for service.
-     *
-     * @return string
-     *
-     * @throws \Exception
-     */
-    public function update()
-    {
-        // Do nothing
-
-        return true;
-    }
-
-    /**
      * Get the http client config.
      *
      * @return array

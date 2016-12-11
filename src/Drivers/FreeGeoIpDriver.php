@@ -75,18 +75,4 @@ class FreeGeoIpDriver extends AbstractDriver
             'continent'   => $this->continents->get($data->country_code, 'Unknown'),
         ]);
     }
-
-    /**
-     * Update function for service.
-     *
-     * @return bool
-     *
-     * @throws \Exception
-     */
-    public function update()
-    {
-        // Do nothing
-
-        return true;
-    }
 }

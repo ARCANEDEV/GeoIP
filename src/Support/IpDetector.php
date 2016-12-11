@@ -1,7 +1,5 @@
 <?php namespace Arcanedev\GeoIP\Support;
 
-use Arcanedev\GeoIP\Support\IpValidator;
-
 /**
  * Class     IpDetector
  *
