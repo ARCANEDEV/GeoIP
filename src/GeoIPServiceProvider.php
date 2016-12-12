@@ -4,12 +4,12 @@ use Arcanedev\Support\PackageServiceProvider;
 use Illuminate\Support\Arr;
 
 /**
- * Class     GeoIpServiceProvider
+ * Class     GeoIPServiceProvider
  *
  * @package  Arcanedev\GeoIP
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class GeoIpServiceProvider extends PackageServiceProvider
+class GeoIPServiceProvider extends PackageServiceProvider
 {
     /* ------------------------------------------------------------------------------------------------
      |  Properties

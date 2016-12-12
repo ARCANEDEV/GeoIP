@@ -31,7 +31,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Arcanedev\GeoIP\GeoIpServiceProvider::class,
+            \Arcanedev\GeoIP\GeoIPServiceProvider::class,
         ];
     }
 
