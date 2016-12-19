@@ -57,13 +57,7 @@ class GeoIPServiceProvider extends PackageServiceProvider
         $this->registerGeoIpManager();
         $this->registerGeoIpCache();
         $this->registerGeoIp();
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                Console\ClearCommand::class,
-                Console\UpdateCommand::class,
-            ]);
-        }
+        $this->registerConsoleServiceProvider(Providers\CommandServiceProvider::class);
     }
 
     /**
@@ -90,9 +84,6 @@ class GeoIPServiceProvider extends PackageServiceProvider
             Contracts\GeoIPDriver::class,
             Contracts\GeoIPCache::class,
             Contracts\DriverFactory::class,
-
-            Console\ClearCommand::class,
-            Console\UpdateCommand::class,
         ];
     }
 
@@ -106,7 +97,6 @@ class GeoIPServiceProvider extends PackageServiceProvider
     private function registerGeoIpManager()
     {
         $this->singleton(Contracts\DriverFactory::class, DriverManager::class);
-
         $this->singleton(Contracts\GeoIPDriver::class, function ($app) {
             return $app[Contracts\DriverFactory::class]->driver();
         });
@@ -145,6 +135,6 @@ class GeoIPServiceProvider extends PackageServiceProvider
             );
         });
 
-        $this->bind('arcanedev.geoip', Contracts\GeoIP::class);
+        $this->singleton('arcanedev.geoip', Contracts\GeoIP::class);
     }
 }

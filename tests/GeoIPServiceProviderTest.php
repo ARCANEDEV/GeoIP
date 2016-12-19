@@ -62,9 +62,6 @@ class GeoIPServiceProviderTest extends TestCase
             \Arcanedev\GeoIP\Contracts\GeoIPDriver::class,
             \Arcanedev\GeoIP\Contracts\GeoIPCache::class,
             \Arcanedev\GeoIP\Contracts\DriverFactory::class,
-
-            \Arcanedev\GeoIP\Console\ClearCommand::class,
-            \Arcanedev\GeoIP\Console\UpdateCommand::class,
         ];
 
         $this->assertSame($expected, $this->provider->provides());
