@@ -42,7 +42,6 @@ class DriverManagerTest extends TestCase
     {
         $expectations = [
             \Illuminate\Support\Manager::class,
-            \Arcanedev\Support\Manager::class,
             \Arcanedev\GeoIP\Contracts\DriverFactory::class,
             \Arcanedev\GeoIP\DriverManager::class,
         ];
