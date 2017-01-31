@@ -56,7 +56,6 @@ class GeoIPServiceProviderTest extends TestCase
     public function it_can_provides()
     {
         $expected = [
-            'geoip',
             \Arcanedev\GeoIP\Contracts\GeoIP::class,
             \Arcanedev\GeoIP\Contracts\DriverFactory::class,
             \Arcanedev\GeoIP\Contracts\GeoIPDriver::class,
