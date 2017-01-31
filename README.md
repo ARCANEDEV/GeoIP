@@ -18,8 +18,18 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/GeoIP/release
 
 ## Features
 
-  - Coming soon&hellip;
+  * Well tested with maximum code quality.
+  * Easy setup &amp; configuration.
+  * Laravel `5.1 | 5.2 | 5.3 | 5.4` are supported.
+  * Well documented &amp; IDE Friendly.
+  * Made with :heart: &amp; :coffee:.
 
+## Table of contents
+
+  1. [Installation and Setup](_docs/1-Installation-and-Setup.md)
+  2. [Configuration](_docs/2-Configuration.md)
+  3. [Usage](_docs/3-Usage.md)
+  
 ## Security
 
 If you discover any security related issues, please email arcanedev-maroc@gmail.com instead of using the issue tracker.
