@@ -27,7 +27,7 @@ class GeoIPServiceProvider extends PackageServiceProvider
      *
      * @var bool
      */
-    protected $defer   = true;
+    protected $defer = true;
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -78,7 +78,6 @@ class GeoIPServiceProvider extends PackageServiceProvider
     public function provides()
     {
         return [
-            'geoip',
             Contracts\GeoIP::class,
             Contracts\DriverFactory::class,
             Contracts\GeoIPDriver::class,
@@ -96,9 +95,15 @@ class GeoIPServiceProvider extends PackageServiceProvider
      */
     private function registerGeoIpManager()
     {
-        $this->singleton(Contracts\DriverFactory::class, DriverManager::class);
+        $this->singleton(Contracts\DriverFactory::class, function ($app) {
+            return new DriverManager($app);
+        });
+
         $this->singleton(Contracts\GeoIPDriver::class, function ($app) {
-            return $app[Contracts\DriverFactory::class]->driver();
+            /** @var  \Arcanedev\GeoIP\Contracts\DriverFactory  $manager */
+            $manager = $app[Contracts\DriverFactory::class];
+
+            return $manager->driver();
         });
     }
 
@@ -112,7 +117,7 @@ class GeoIPServiceProvider extends PackageServiceProvider
             $config = $app['config'];
 
             return new Cache(
-                $this->app['cache.store'],
+                $app['cache.store'],
                 $config->get('geoip.cache.tags', []),
                 $config->get('geoip.cache.expires', 30)
             );
@@ -134,7 +139,5 @@ class GeoIPServiceProvider extends PackageServiceProvider
                 Arr::only($config->get('geoip', []), ['cache', 'location', 'currencies'])
             );
         });
-
-        $this->singleton('arcanedev.geoip', Contracts\GeoIP::class);
     }
 }
