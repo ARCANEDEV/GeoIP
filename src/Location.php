@@ -5,6 +5,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use JsonSerializable;
 
 /**
  * Class     Location
@@ -29,12 +30,13 @@ use Illuminate\Support\Str;
  * @property  bool|null  cached
  * @property  string     currency
  */
-class Location implements ArrayAccess, Arrayable, Jsonable
+class Location implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * The location's attributes
      *
@@ -42,10 +44,11 @@ class Location implements ArrayAccess, Arrayable, Jsonable
      */
     protected $attributes = [];
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Create a new location instance.
      *
@@ -56,10 +59,11 @@ class Location implements ArrayAccess, Arrayable, Jsonable
         $this->attributes = $attributes;
     }
 
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get all attributes.
      *
@@ -134,6 +138,16 @@ class Location implements ArrayAccess, Arrayable, Jsonable
     }
 
     /**
+     * Convert the object into something JSON serializable.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    /**
      * Convert the object to its JSON representation.
      *
      * @param  int  $options
@@ -142,13 +156,14 @@ class Location implements ArrayAccess, Arrayable, Jsonable
      */
     public function toJson($options = 0)
     {
-        return json_encode($this->toArray(), $options);
+        return json_encode($this->jsonSerialize(), $options);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Check Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Determine if the location is for the same IP address.
      *
@@ -161,10 +176,11 @@ class Location implements ArrayAccess, Arrayable, Jsonable
         return $this->getAttribute('ip') === $ip;
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Determine if the given attribute exists.
      *

@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\GeoIP\Entities;
 
-use Arcanedev\Support\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Class     Currencies
@@ -10,21 +10,20 @@ use Arcanedev\Support\Collection;
  */
 class Currencies extends Collection
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Make the currencies collection.
      *
-     * @param  array  $items
-     *
      * @return self
      */
-    public static function make($items = [])
+    public static function load()
     {
-        return new static(
-            config('geoip.currencies.data', $items)
+        return static::make(
+            config('geoip.currencies.data')
         );
     }
 }

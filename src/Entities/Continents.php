@@ -10,21 +10,20 @@ use Arcanedev\Support\Collection;
  */
 class Continents extends Collection
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Make the continents collection.
      *
-     * @param  array  $items
-     *
      * @return self
      */
-    public static function make($items = [])
+    public static function load()
     {
-        return new static(
-            config('geoip.continents', $items)
+        return static::make(
+            config('geoip.continents')
         );
     }
 }

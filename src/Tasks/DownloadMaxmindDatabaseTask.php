@@ -11,10 +11,11 @@ use Illuminate\Support\Str;
  */
 class DownloadMaxmindDatabaseTask
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Run the task.
      *
@@ -33,7 +34,6 @@ class DownloadMaxmindDatabaseTask
 
         $tmpFile = tempnam(sys_get_temp_dir(), 'maxmind');
         file_put_contents($tmpFile, fopen($url, 'r'));
-
         file_put_contents($path, gzopen($tmpFile, 'r'));
 
         unlink($tmpFile);
@@ -48,7 +48,7 @@ class DownloadMaxmindDatabaseTask
      *
      * @return string
      *
-     * @throws Exception
+     * @throws \Exception
      */
     private static function checkDestinationPath($path)
     {
@@ -70,7 +70,7 @@ class DownloadMaxmindDatabaseTask
         $headers = get_headers($url);
 
         if ( ! Str::contains($headers[0], '200 OK')) {
-            throw new Exception('Unable to download Maxmind\'s database. ('. substr($headers[0], 13) .')');
+            throw new Exception('Unable to download Maxmind\'s database. ('.substr($headers[0], 13).')');
         }
     }
 }
