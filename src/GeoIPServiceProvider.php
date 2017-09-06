@@ -11,10 +11,11 @@ use Illuminate\Support\Arr;
  */
 class GeoIPServiceProvider extends PackageServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Package name.
      *
@@ -29,34 +30,24 @@ class GeoIPServiceProvider extends PackageServiceProvider
      */
     protected $defer = true;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Getters & Setters
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
-    /**
-     * Get the base path of the package.
-     *
-     * @return string
-     */
-    public function getBasePath()
-    {
-        return dirname(__DIR__);
-    }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
      * Register the service provider.
      */
     public function register()
     {
+        parent::register();
+
         $this->registerConfig();
 
         $this->registerGeoIpManager();
         $this->registerGeoIpCache();
         $this->registerGeoIp();
+
         $this->registerConsoleServiceProvider(Providers\CommandServiceProvider::class);
     }
 
@@ -86,10 +77,11 @@ class GeoIPServiceProvider extends PackageServiceProvider
         ];
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Register the GeoIP manager.
      */

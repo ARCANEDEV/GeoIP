@@ -1,5 +1,6 @@
 <?php namespace Arcanedev\GeoIP\Facades;
 
+use Arcanedev\GeoIP\Contracts\GeoIP as GeoIPContract;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -15,5 +16,5 @@ class GeoIP extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'arcanedev.geoip'; }
+    protected static function getFacadeAccessor() { return GeoIPContract::class; }
 }

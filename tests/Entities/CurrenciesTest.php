@@ -10,22 +10,24 @@ use Arcanedev\GeoIP\Tests\TestCase;
  */
 class CurrenciesTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /** @var  \Arcanedev\GeoIP\Entities\Currencies */
     protected $currencies;
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->currencies = \Arcanedev\GeoIP\Entities\Currencies::make();
+        $this->currencies = \Arcanedev\GeoIP\Entities\Currencies::load();
     }
 
     public function tearDown()
@@ -35,16 +37,16 @@ class CurrenciesTest extends TestCase
         parent::tearDown();
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_be_instantiated()
     {
         $expectations = [
             \Illuminate\Support\Collection::class,
-            \Arcanedev\Support\Collection::class,
             \Arcanedev\GeoIP\Entities\Currencies::class,
         ];
 

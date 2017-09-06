@@ -32,9 +32,6 @@
             "Arcanedev\\GeoIP\\Tests\\": "tests/"
         }
     },
-    "scripts": {
-        "testbench": "composer require --dev \"orchestra/testbench=~3.0\""
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.1-dev"
@@ -42,5 +39,8 @@
     },
     "suggest": {
         "geoip2/geoip2": "Required if you're going to use the MaxMind database or web service."
+    },
+    "scripts": {
+        "testbench": "composer require --dev \"orchestra/testbench=~3.4.0\""
     }
 }
