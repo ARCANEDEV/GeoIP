@@ -20,7 +20,7 @@ Feel free to check out the [releases](https://github.com/ARCANEDEV/GeoIP/release
 
   * Well tested with maximum code quality.
   * Easy setup &amp; configuration.
-  * Laravel `5.1 | 5.2 | 5.3 | 5.4` are supported.
+  * Laravel `5.1 | 5.2 | 5.3 | 5.4 | 5.5` are supported.
   * Well documented &amp; IDE Friendly.
   * Made with :heart: &amp; :coffee:.
 
@@ -38,7 +38,7 @@ If you discover any security related issues, please email arcanedev-maroc@gmail.
 
 Any ideas are welcome. Feel free to submit any issues or pull requests, please check the [contribution guidelines](CONTRIBUTING.md).
 
-[badge_laravel]:   https://img.shields.io/badge/For-Laravel%205.x-orange.svg?style=flat-square
+[badge_laravel]:   https://img.shields.io/badge/Laravel-5.1%20to%205.5-orange.svg?style=flat-square
 [badge_license]:   https://img.shields.io/packagist/l/arcanedev/geo-ip.svg?style=flat-square
 
 [badge_build]:     https://img.shields.io/travis/ARCANEDEV/GeoIP.svg?style=flat-square
