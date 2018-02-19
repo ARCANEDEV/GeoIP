@@ -53,7 +53,7 @@ class IpApiDriverTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->driver);
+            static::assertInstanceOf($expected, $this->driver);
         }
     }
 
@@ -62,26 +62,26 @@ class IpApiDriverTest extends TestCase
     {
         $location = $this->driver->locate('128.101.101.101');
 
-        $this->assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
+        static::assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
 
         $expected = [
             'ip'          => '128.101.101.101',
             'iso_code'    => 'US',
             'country'     => 'United States',
-            'city'        => 'Minneapolis',
+            'city'        => 'Saint Paul',
             'state'       => 'Minnesota',
             'state_code'  => 'MN',
-            'postal_code' => '55414',
-            'latitude'    => 44.9759,
-            'longitude'   => -93.2166,
+            'postal_code' => '55102',
+            'latitude'    => 44.9278,
+            'longitude'   => -93.1162,
             'timezone'    => 'America/Chicago',
             'continent'   => 'NA',
         ];
 
-        $this->assertSame($expected, $location->attributes());
-        $this->assertSame($expected, $location->toArray());
+        static::assertSame($expected, $location->attributes());
+        static::assertSame($expected, $location->toArray());
 
-        $this->assertFalse($location->default);
-        $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
+        static::assertFalse($location->default);
+        static::assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
     }
 }

@@ -18,7 +18,7 @@ class MaxmindDatabaseDriverTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             \Arcanedev\GeoIP\Drivers\MaxmindDatabaseDriver::class,
             $this->makeDriver()
         );
@@ -31,7 +31,7 @@ class MaxmindDatabaseDriverTest extends TestCase
 
         $location = $this->makeDriver()->locate('128.101.101.101');
 
-        $this->assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
+        static::assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
 
         $expected = [
             'ip'          => '128.101.101.101',
@@ -47,11 +47,11 @@ class MaxmindDatabaseDriverTest extends TestCase
             'continent' => 'NA',
         ];
 
-        $this->assertSame($expected, $location->attributes());
-        $this->assertSame($expected, $location->toArray());
+        static::assertSame($expected, $location->attributes());
+        static::assertSame($expected, $location->toArray());
 
-        $this->assertFalse($location->default);
-        $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
+        static::assertFalse($location->default);
+        static::assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
     }
 
     /**

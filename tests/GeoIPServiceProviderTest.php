@@ -51,7 +51,7 @@ class GeoIPServiceProviderTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->provider);
+            static::assertInstanceOf($expected, $this->provider);
         }
     }
 
@@ -66,6 +66,6 @@ class GeoIPServiceProviderTest extends TestCase
             \Arcanedev\GeoIP\Contracts\DriverFactory::class,
         ];
 
-        $this->assertSame($expected, $this->provider->provides());
+        static::assertSame($expected, $this->provider->provides());
     }
 }

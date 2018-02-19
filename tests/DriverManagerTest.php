@@ -50,14 +50,14 @@ class DriverManagerTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->manager);
+            static::assertInstanceOf($expected, $this->manager);
         }
     }
 
     /** @test */
     public function it_can_get_default_driver()
     {
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             \Arcanedev\GeoIP\Drivers\FreeGeoIpDriver::class,
             $this->manager->driver()
         );
@@ -74,7 +74,7 @@ class DriverManagerTest extends TestCase
         ];
 
         foreach ($drivers as $name => $driver) {
-            $this->assertInstanceOf($driver, $this->manager->driver($name));
+            static::assertInstanceOf($driver, $this->manager->driver($name));
         }
     }
 }

@@ -53,7 +53,7 @@ class FreeGeoIpDriverTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->driver);
+            static::assertInstanceOf($expected, $this->driver);
         }
     }
 
@@ -62,7 +62,7 @@ class FreeGeoIpDriverTest extends TestCase
     {
         $location = $this->driver->locate('128.101.101.101');
 
-        $this->assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
+        static::assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
 
         $expected = [
             'ip'          => '128.101.101.101',
@@ -78,10 +78,10 @@ class FreeGeoIpDriverTest extends TestCase
             'continent'   => 'NA',
         ];
 
-        $this->assertSame($expected, $location->attributes());
-        $this->assertSame($expected, $location->toArray());
+        static::assertSame($expected, $location->attributes());
+        static::assertSame($expected, $location->toArray());
 
-        $this->assertFalse($location->default);
-        $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
+        static::assertFalse($location->default);
+        static::assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
     }
 }
