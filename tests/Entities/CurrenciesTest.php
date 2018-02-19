@@ -51,11 +51,11 @@ class CurrenciesTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->currencies);
+            static::assertInstanceOf($expected, $this->currencies);
         }
 
-        $this->assertFalse($this->currencies->isEmpty());
-        $this->assertCount(247, $this->currencies);
+        static::assertFalse($this->currencies->isEmpty());
+        static::assertCount(247, $this->currencies);
     }
 
     /** @test */
@@ -68,10 +68,10 @@ class CurrenciesTest extends TestCase
         ];
 
         foreach ($expectations as $key => $expected) {
-            $this->assertSame($expected, $this->currencies->get($key));
+            static::assertSame($expected, $this->currencies->get($key));
         }
 
-        $this->assertNull($this->currencies->get('ZZ'));
-        $this->assertSame('Unknown', $this->currencies->get('ZZ', 'Unknown'));
+        static::assertNull($this->currencies->get('ZZ'));
+        static::assertSame('Unknown', $this->currencies->get('ZZ', 'Unknown'));
     }
 }

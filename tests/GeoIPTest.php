@@ -49,20 +49,20 @@ class GeoIPTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->geoip);
+            static::assertInstanceOf($expected, $this->geoip);
         }
     }
 
     /** @test */
     public function it_can_get_driver()
     {
-        $this->assertInstanceOf(\Arcanedev\GeoIP\Contracts\GeoIPDriver::class, $this->geoip->driver());
+        static::assertInstanceOf(\Arcanedev\GeoIP\Contracts\GeoIPDriver::class, $this->geoip->driver());
     }
 
     /** @test */
     public function it_can_get_cache()
     {
-        $this->assertInstanceOf(\Arcanedev\GeoIP\Contracts\GeoIPCache::class, $this->geoip->cache());
+        static::assertInstanceOf(\Arcanedev\GeoIP\Contracts\GeoIPCache::class, $this->geoip->cache());
     }
 
     /** @test */
@@ -75,7 +75,7 @@ class GeoIPTest extends TestCase
         ];
 
         foreach ($currencies as $iso => $expected) {
-            $this->assertSame($expected, $this->geoip->getCurrency($iso));
+            static::assertSame($expected, $this->geoip->getCurrency($iso));
         }
     }
 
@@ -86,7 +86,7 @@ class GeoIPTest extends TestCase
 
         $location = $this->geoip->location($ip);
 
-        $this->assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
+        static::assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
 
         $expected = [
             'ip'          => '128.101.101.101',
@@ -104,11 +104,11 @@ class GeoIPTest extends TestCase
             'default'     => false,
         ];
 
-        $this->assertSame($expected, $location->attributes());
-        $this->assertSame($expected, $location->toArray());
+        static::assertSame($expected, $location->attributes());
+        static::assertSame($expected, $location->toArray());
 
-        $this->assertFalse($location->default);
-        $this->assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
+        static::assertFalse($location->default);
+        static::assertSame($expected['city'].', '.$expected['state_code'], $location->display_name);
     }
 
     /** @test */
@@ -131,10 +131,10 @@ class GeoIPTest extends TestCase
 
         $location = $this->geoip->location('0.0.0');
 
-        $this->assertSame($default, $location->attributes());
-        $this->assertSame($default, $location->toArray());
+        static::assertSame($default, $location->attributes());
+        static::assertSame($default, $location->toArray());
 
-        $this->assertFalse($location->default);
-        $this->assertSame($default['city'].', '.$default['state_code'], $location->display_name);
+        static::assertFalse($location->default);
+        static::assertSame($default['city'].', '.$default['state_code'], $location->display_name);
     }
 }

@@ -52,11 +52,11 @@ class ContinentsTest extends TestCase
         ];
 
         foreach ($expectations as $expected) {
-            $this->assertInstanceOf($expected, $this->continents);
+            static::assertInstanceOf($expected, $this->continents);
         }
 
-        $this->assertFalse($this->continents->isEmpty());
-        $this->assertCount(252, $this->continents);
+        static::assertFalse($this->continents->isEmpty());
+        static::assertCount(252, $this->continents);
     }
 
     /** @test */
@@ -70,10 +70,10 @@ class ContinentsTest extends TestCase
         ];
 
         foreach ($expectations as $key => $expected) {
-            $this->assertSame($expected, $this->continents->get($key));
+            static::assertSame($expected, $this->continents->get($key));
         }
 
-        $this->assertNull($this->continents->get('ZZ'));
-        $this->assertSame('Unknown', $this->continents->get('ZZ', 'Unknown'));
+        static::assertNull($this->continents->get('ZZ'));
+        static::assertSame('Unknown', $this->continents->get('ZZ', 'Unknown'));
     }
 }
