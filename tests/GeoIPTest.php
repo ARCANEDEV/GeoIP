@@ -82,9 +82,7 @@ class GeoIPTest extends TestCase
     /** @test */
     public function it_can_get_location()
     {
-        $ip = '128.101.101.101';
-
-        $location = $this->geoip->location($ip);
+        $location = $this->geoip->location($ip = '128.101.101.101');
 
         static::assertInstanceOf(\Arcanedev\GeoIP\Location::class, $location);
 

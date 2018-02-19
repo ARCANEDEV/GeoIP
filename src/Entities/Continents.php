@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\GeoIP\Entities;
 
-use Arcanedev\Support\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Class     Continents

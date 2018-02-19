@@ -47,7 +47,6 @@ class ContinentsTest extends TestCase
     {
         $expectations = [
             \Illuminate\Support\Collection::class,
-            \Arcanedev\Support\Collection::class,
             \Arcanedev\GeoIP\Entities\Continents::class,
         ];
 
