@@ -15,7 +15,7 @@ return [
      | -----------------------------------------------------------------
      */
 
-    'supported' => [
+    'drivers' => [
         'freegeoip' => [
             'driver'  => Arcanedev\GeoIP\Drivers\FreeGeoIpDriver::class,
             'options' => [

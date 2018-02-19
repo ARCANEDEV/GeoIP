@@ -23,44 +23,7 @@ class DriverManager extends Manager implements DriverFactory
      */
     public function getDefaultDriver()
     {
-        return $this->getConfig('default');
-    }
-
-    /**
-     * Get the driver class.
-     *
-     * @param  string  $key
-     *
-     * @return string
-     */
-    private function getDriverClass($key)
-    {
-        return $this->getConfig("supported.$key.driver");
-    }
-
-    /**
-     * Get the driver options.
-     *
-     * @param  string  $key
-     *
-     * @return array
-     */
-    private function getDriverOptions($key)
-    {
-        return $this->getConfig("supported.$key.options", []);
-    }
-
-    /**
-     * Get the config.
-     *
-     * @param  string      $key
-     * @param  mixed|null  $default
-     *
-     * @return mixed
-     */
-    public function getConfig($key, $default = null)
-    {
-        return $this->config()->get("geoip.$key", $default);
+        return $this->config()->get("geoip.default");
     }
 
     /**
@@ -81,7 +44,7 @@ class DriverManager extends Manager implements DriverFactory
     /**
      * Build the 'ip-api' driver.
      *
-     * @return Drivers\IpApiDriver
+     * @return \Arcanedev\GeoIP\Drivers\AbstractDriver
      */
     protected function createIpApiDriver()
     {
@@ -91,7 +54,7 @@ class DriverManager extends Manager implements DriverFactory
     /**
      * Build the 'freegeoip' driver.
      *
-     * @return Drivers\FreeGeoIpDriver
+     * @return \Arcanedev\GeoIP\Drivers\AbstractDriver
      */
     protected function createFreegeoipDriver()
     {
@@ -101,7 +64,7 @@ class DriverManager extends Manager implements DriverFactory
     /**
      * Get the 'maxmind-database' driver.
      *
-     * @return mixed
+     * @return \Arcanedev\GeoIP\Drivers\AbstractDriver
      */
     protected function createMaxmindDatabaseDriver()
     {
@@ -111,7 +74,7 @@ class DriverManager extends Manager implements DriverFactory
     /**
      * Get the 'maxmind-api' driver.
      *
-     * @return Drivers\MaxmindApiDriver
+     * @return \Arcanedev\GeoIP\Drivers\AbstractDriver
      */
     protected function createMaxmindApiDriver()
     {
@@ -126,14 +89,16 @@ class DriverManager extends Manager implements DriverFactory
     /**
      * Build the driver.
      *
-     * @param  string  $key
+     * @param  string  $name
      *
-     * @return mixed
+     * @return \Arcanedev\GeoIP\Drivers\AbstractDriver
      */
-    private function buildDriver($key)
+    private function buildDriver($name)
     {
-        $class = $this->getDriverClass($key);
+        $class = $this->config()->get("geoip.drivers.$name.driver");
 
-        return new $class($this->getDriverOptions($key));
+        return new $class(
+            $this->config()->get("geoip.drivers.$name.options", [])
+        );
     }
 }

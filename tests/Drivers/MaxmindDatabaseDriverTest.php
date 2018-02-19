@@ -88,7 +88,7 @@ class MaxmindDatabaseDriverTest extends TestCase
     private function switchDatabasePath()
     {
         $this->config()->set(
-            'geoip.supported.maxmind-database.options.database-path',
+            'geoip.drivers.maxmind-database.options.database-path',
             realpath(__DIR__ . '/../fixture/data/geoip.mmdb')
         );
     }

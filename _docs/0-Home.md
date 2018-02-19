@@ -6,7 +6,7 @@ GeoIP package for Laravel.
 
   * Well tested with maximum code quality.
   * Easy setup &amp; configuration.
-  * Laravel `5.1 | 5.2 | 5.3 | 5.4 | 5.5` are supported.
+  * Laravel `5.1 | 5.2 | 5.3 | 5.4 | 5.5 | 5.6` are supported.
   * Well documented &amp; IDE Friendly.
   * Made with :heart: &amp; :coffee:.
 
